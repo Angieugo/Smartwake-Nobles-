@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Model Editor - Smartwake</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .brand-gradient {
+            background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 50%, #7dd3fc 100%);
+        }
+        
+        .draggable {
+            cursor: grab;
+            transition: transform 0.2s ease;
+        }
+        
+        .draggable:hover {
+            transform: scale(1.05);
+        }
+        
+        .draggable:active {
+            cursor: grabbing;
+        }
+        
+        .canvas-element {
+            position: absolute;
+            cursor: move;
+            border: 2px dashed transparent;
+        }
+        
+        .canvas-element:hover {
+            border-color: #0ea5e9;
+        }
+        
+        .canvas-element.selected {
+            border-color: #0ea5e9;
+            border-style: solid;
+        }
+        
+        .sidebar-panel {
+            width: 300px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+        
+        .canvas-area {
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200">
+        <!-- Top Header Bar -->
+        <div class="px-6 py-2 border-b border-gray-100">
+            <div class="flex items-center justify-between">
+                <!-- Left: Logo and File Menu -->
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 brand-gradient rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">SI</span>
+                        </div>
+                        <span class="text-lg font-bold" style="color: #0ea5e9;">Smartwake</span>
+                    </div>
+                    
+                    <!-- File Menu -->
+                    <div class="flex items-center space-x-1">
+                        <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded transition-colors">File</button>
+                        <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded transition-colors">Edit</button>
+                        <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded transition-colors">View</button>
+                        <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded transition-colors">Insert</button>
+                        <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded transition-colors">Format</button>
+                        <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded transition-colors">Tools</button>
+                        <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded transition-colors">Help</button>
+                    </div>
+                </div>
+                
+                <!-- Right: Account and Settings -->
+                <div class="flex items-center space-x-3">
+                    <!-- Notifications -->
+                    <button class="p-2 text-gray-600 hover:text-sky-500 transition-colors relative">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM4 19h10a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <div class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></div>
+                    </button>
+                    
+                    <!-- Settings -->
+                    <button class="p-2 text-gray-600 hover:text-sky-500 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </button>
+                    
+                    <!-- Account -->
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-sm font-medium">JD</span>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">John Doe</span>
+                        <button class="p-1 text-gray-400 hover:text-gray-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Header Bar -->
+        <div class="px-6 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Left: Document Info -->
+                <div class="flex items-center space-x-4">
+                    <!-- Document Name -->
+                    <div class="flex items-center space-x-2">
+                        <input type="text" value="Tech Startup Business Plan" class="text-lg font-semibold text-gray-900 bg-transparent border-none outline-none hover:bg-gray-50 px-2 py-1 rounded">
+                        <button class="p-1 text-gray-400 hover:text-gray-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Auto-save Status -->
+                    <div class="flex items-center space-x-2 text-sm text-gray-500">
+                        <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>All changes saved</span>
+                    </div>
+                    
+                    <!-- Version History -->
+                    <button class="flex items-center space-x-1 text-sm text-gray-500 hover:text-sky-500 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Version history</span>
+                    </button>
+                </div>
+                
+                <!-- Center: Canvas Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- Undo/Redo -->
+                    <div class="flex items-center space-x-1">
+                        <button class="p-2 text-gray-600 hover:text-sky-500 transition-colors" title="Undo">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+                            </svg>
+                        </button>
+                        <button class="p-2 text-gray-600 hover:text-sky-500 transition-colors" title="Redo">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10h-10a8 8 0 00-8 8v2m18-10l-6-6m6 6l-6 6"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="h-6 w-px bg-gray-300"></div>
+                    
+                    <!-- Zoom Controls -->
+                    <div class="flex items-center space-x-2">
+                        <button class="p-2 text-gray-600 hover:text-sky-500 transition-colors" title="Zoom out">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"></path>
+                            </svg>
+                        </button>
+                        <select class="text-sm text-gray-600 bg-transparent border border-gray-300 rounded px-2 py-1 hover:border-sky-300 focus:border-sky-500 focus:outline-none">
+                            <option>50%</option>
+                            <option>75%</option>
+                            <option selected>100%</option>
+                            <option>125%</option>
+                            <option>150%</option>
+                            <option>200%</option>
+                            <option>Fit</option>
+                        </select>
+                        <button class="p-2 text-gray-600 hover:text-sky-500 transition-colors" title="Zoom in">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="h-6 w-px bg-gray-300"></div>
+                    
+                    <!-- Page Size -->
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <select class="text-sm text-gray-600 bg-transparent border border-gray-300 rounded px-2 py-1 hover:border-sky-300 focus:border-sky-500 focus:outline-none">
+                            <option selected>A4 (210 × 297 mm)</option>
+                            <option>Letter (8.5 × 11 in)</option>
+                            <option>Legal (8.5 × 14 in)</option>
+                            <option>A3 (297 × 420 mm)</option>
+                            <option>Custom</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Right: Actions -->
+                <div class="flex items-center space-x-3">
+                    <!-- Comments -->
+                    <button class="flex items-center space-x-1 px-3 py-2 text-gray-600 hover:text-sky-500 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        <span class="text-sm">Comments</span>
+                    </button>
+                    
+                    <!-- Share -->
+                    <button class="flex items-center space-x-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                        </svg>
+                        <span class="text-sm">Share</span>
+                    </button>
+                    
+                    <!-- Present -->
+                    <button class="flex items-center space-x-1 px-4 py-2 text-gray-600 hover:text-sky-500 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0V1a1 1 0 011-1h2a1 1 0 011 1v18a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1h2a1 1 0 011 1v3m0-4h8m-8 0V1a1 1 0 00-1-1H4a1 1 0 00-1 1v3"></path>
+                        </svg>
+                        <span class="text-sm">Present</span>
+                    </button>
+                    
+                    <!-- Download -->
+                    <div class="relative">
+                        <button class="flex items-center space-x-1 px-6 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <span class="text-sm">Download</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex h-screen">
+        <!-- Left Sidebar -->
+        <div class="w-20 bg-white border-r border-gray-200 flex flex-col items-center py-4 space-y-4">
+            <!-- AI Assistance -->
+            <button class="sidebar-btn p-3 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-500 transition-colors" data-panel="ai">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+                <span class="text-xs mt-1">AI Assist</span>
+            </button>
+            
+            <!-- Elements -->
+            <button class="sidebar-btn p-3 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-500 transition-colors" data-panel="elements">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+                <span class="text-xs mt-1">Elements</span>
+            </button>
+            
+            <!-- Text -->
+            <button class="sidebar-btn p-3 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-500 transition-colors" data-panel="text">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path>
+                </svg>
+                <span class="text-xs mt-1">Text</span>
+            </button>
+            
+            <!-- Brand -->
+            <button class="sidebar-btn p-3 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-500 transition-colors" data-panel="brand">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                </svg>
+                <span class="text-xs mt-1">Brand</span>
+            </button>
+            
+            <!-- Projects -->
+            <button class="sidebar-btn p-3 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-500 transition-colors" data-panel="projects">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+                <span class="text-xs mt-1">Projects</span>
+            </button>
+            
+            <!-- Media -->
+            <button class="sidebar-btn p-3 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-500 transition-colors" data-panel="media">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <span class="text-xs mt-1">Media</span>
+            </button>
+            
+            <!-- Sector -->
+            <button class="sidebar-btn p-3 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-500 transition-colors" data-panel="sector">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+                <span class="text-xs mt-1">Sector</span>
+            </button>
+            
+            <!-- Templates -->
+            <button class="sidebar-btn p-3 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-500 transition-colors" data-panel="templates">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                </svg>
+                <span class="text-xs mt-1">Templates</span>
+            </button>
+            
+            <!-- Type -->
+            <button class="sidebar-btn p-3 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-500 transition-colors" data-panel="type">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span class="text-xs mt-1">Type</span>
+            </button>
+            
+            <!-- Shapes -->
+            <button class="sidebar-btn p-3 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-500 transition-colors" data-panel="shapes">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+                <span class="text-xs mt-1">Shapes</span>
+            </button>
+            
+            <!-- Charts -->
+            <button class="sidebar-btn p-3 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-500 transition-colors" data-panel="charts">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+                <span class="text-xs mt-1">Charts</span>
+            </button>
+            
+            <!-- Lines -->
+            <button class="sidebar-btn p-3 rounded-lg text-gray-600 hover:bg-sky-50 hover:text-sky-500 transition-colors" data-panel="lines">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                </svg>
+                <span class="text-xs mt-1">Lines</span>
+            </button>
+        </div>
+
+        <!-- Expandable Panel -->
+        <div id="sidePanel" class="sidebar-panel bg-white border-r border-gray-200 hidden">
+            <!-- AI Assistance Panel -->
+            <div id="ai-panel" class="panel-content hidden p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">AI Assistance</h3>
+                <div class="space-y-3">
+                    <button class="w-full p-3 text-left bg-sky-50 rounded-lg hover:bg-sky-100 transition-colors">
+                        <div class="font-medium text-gray-900">Generate Content</div>
+                        <div class="text-sm text-gray-600">AI-powered business plan sections</div>
+                    </button>
+                    <button class="w-full p-3 text-left bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="font-medium text-gray-900">Market Analysis</div>
+                        <div class="text-sm text-gray-600">Automated market research</div>
+                    </button>
+                    <button class="w-full p-3 text-left bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="font-medium text-gray-900">Financial Projections</div>
+                        <div class="text-sm text-gray-600">AI-generated financial models</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Elements Panel -->
+            <div id="elements-panel" class="panel-content hidden p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Elements</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="draggable p-4 bg-gray-50 rounded-lg text-center hover:bg-gray-100 transition-colors" data-element="button">
+                        <div class="w-full h-8 bg-sky-500 rounded mb-2"></div>
+                        <span class="text-xs">Button</span>
+                    </div>
+                    <div class="draggable p-4 bg-gray-50 rounded-lg text-center hover:bg-gray-100 transition-colors" data-element="icon">
+                        <svg class="w-8 h-8 mx-auto mb-2 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <span class="text-xs">Icon</span>
+                    </div>
+                    <div class="draggable p-4 bg-gray-50 rounded-lg text-center hover:bg-gray-100 transition-colors" data-element="divider">
+                        <div class="w-full h-px bg-gray-400 my-4"></div>
+                        <span class="text-xs">Divider</span>
+                    </div>
+                    <div class="draggable p-4 bg-gray-50 rounded-lg text-center hover:bg-gray-100 transition-colors" data-element="frame">
+                        <div class="w-full h-8 border-2 border-gray-400 rounded mb-2"></div>
+                        <span class="text-xs">Frame</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text Panel -->
+            <div id="text-panel" class="panel-content hidden p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Text</h3>
+                <div class="space-y-3">
+                    <div class="draggable p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors" data-element="heading">
+                        <div class="text-2xl font-bold text-gray-900">Add a heading</div>
+                    </div>
+                    <div class="draggable p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors" data-element="subheading">
+                        <div class="text-lg font-semibold text-gray-700">Add a subheading</div>
+                    </div>
+                    <div class="draggable p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors" data-element="body">
+                        <div class="text-sm text-gray-600">Add a little bit of body text</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Brand Panel -->
+            <div id="brand-panel" class="panel-content hidden p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Brand</h3>
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-medium text-gray-900 mb-2">Brand Colors</h4>
+                        <div class="flex space-x-2">
+                            <div class="w-8 h-8 bg-sky-500 rounded cursor-pointer"></div>
+                            <div class="w-8 h-8 bg-blue-600 rounded cursor-pointer"></div>
+                            <div class="w-8 h-8 bg-gray-800 rounded cursor-pointer"></div>
+                            <div class="w-8 h-8 bg-white border rounded cursor-pointer"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-gray-900 mb-2">Brand Fonts</h4>
+                        <div class="space-y-2">
+                            <div class="p-2 bg-gray-50 rounded font-bold">Inter Bold</div>
+                            <div class="p-2 bg-gray-50 rounded font-medium">Inter Medium</div>
+                            <div class="p-2 bg-gray-50 rounded">Inter Regular</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Templates Panel -->
+            <div id="templates-panel" class="panel-content hidden p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Templates</h3>
+                <div class="space-y-3">
+                    <div class="draggable p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="h-20 bg-gradient-to-r from-sky-400 to-sky-600 rounded mb-2"></div>
+                        <div class="text-sm font-medium">Executive Summary</div>
+                    </div>
+                    <div class="draggable p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="h-20 bg-gradient-to-r from-green-400 to-green-600 rounded mb-2"></div>
+                        <div class="text-sm font-medium">Market Analysis</div>
+                    </div>
+                    <div class="draggable p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="h-20 bg-gradient-to-r from-purple-400 to-purple-600 rounded mb-2"></div>
+                        <div class="text-sm font-medium">Financial Plan</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Type Panel -->
+            <div id="type-panel" class="panel-content hidden p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Business Plan Types</h3>
+                <div class="space-y-3">
+                    <button class="w-full p-3 text-left bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="font-medium text-gray-900">Startup Plan</div>
+                        <div class="text-sm text-gray-600">For new businesses</div>
+                    </button>
+                    <button class="w-full p-3 text-left bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="font-medium text-gray-900">Growth Plan</div>
+                        <div class="text-sm text-gray-600">For expanding businesses</div>
+                    </button>
+                    <button class="w-full p-3 text-left bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="font-medium text-gray-900">Strategic Plan</div>
+                        <div class="text-sm text-gray-600">Long-term planning</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Charts Panel -->
+            <div id="charts-panel" class="panel-content hidden p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Charts</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="draggable p-3 bg-gray-50 rounded-lg text-center hover:bg-gray-100 transition-colors" data-element="bar-chart">
+                        <div class="flex items-end justify-center space-x-1 h-8 mb-2">
+                            <div class="w-2 h-4 bg-sky-500"></div>
+                            <div class="w-2 h-6 bg-sky-500"></div>
+                            <div class="w-2 h-3 bg-sky-500"></div>
+                            <div class="w-2 h-7 bg-sky-500"></div>
+                        </div>
+                        <span class="text-xs">Bar Chart</span>
+                    </div>
+                    <div class="draggable p-3 bg-gray-50 rounded-lg text-center hover:bg-gray-100 transition-colors" data-element="pie-chart">
+                        <div class="w-8 h-8 mx-auto mb-2 rounded-full bg-gradient-to-r from-sky-500 via-blue-500 to-purple-500"></div>
+                        <span class="text-xs">Pie Chart</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other panels would follow similar pattern -->
+            <div id="projects-panel" class="panel-content hidden p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Recent Projects</h3>
+                <div class="space-y-2">
+                    <div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                        <div class="font-medium text-sm">Tech Startup Plan</div>
+                        <div class="text-xs text-gray-600">2 days ago</div>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                        <div class="font-medium text-sm">Restaurant Business</div>
+                        <div class="text-xs text-gray-600">1 week ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="media-panel" class="panel-content hidden p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Media</h3>
+                <div class="space-y-3">
+                    <button class="w-full p-3 bg-sky-50 rounded-lg hover:bg-sky-100 transition-colors">Upload Images</button>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="aspect-square bg-gray-200 rounded"></div>
+                        <div class="aspect-square bg-gray-200 rounded"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sector-panel" class="panel-content hidden p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Business Sectors</h3>
+                <div class="space-y-2">
+                    <button class="w-full p-2 text-left bg-gray-50 rounded hover:bg-gray-100 transition-colors">Technology</button>
+                    <button class="w-full p-2 text-left bg-gray-50 rounded hover:bg-gray-100 transition-colors">Healthcare</button>
+                    <button class="w-full p-2 text-left bg-gray-50 rounded hover:bg-gray-100 transition-colors">Finance</button>
+                    <button class="w-full p-2 text-left bg-gray-50 rounded hover:bg-gray-100 transition-colors">Retail</button>
+                </div>
+            </div>
+
+            <div id="shapes-panel" class="panel-content hidden p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Shapes</h3>
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="draggable p-3 bg-gray-50 rounded text-center hover:bg-gray-100 transition-colors" data-element="rectangle">
+                        <div class="w-8 h-6 bg-sky-500 mx-auto mb-1"></div>
+                        <span class="text-xs">Rectangle</span>
+                    </div>
+                    <div class="draggable p-3 bg-gray-50 rounded text-center hover:bg-gray-100 transition-colors" data-element="circle">
+                        <div class="w-6 h-6 bg-sky-500 rounded-full mx-auto mb-1"></div>
+                        <span class="text-xs">Circle</span>
+                    </div>
+                    <div class="draggable p-3 bg-gray-50 rounded text-center hover:bg-gray-100 transition-colors" data-element="triangle">
+                        <div class="w-0 h-0 border-l-4 border-r-4 border-b-6 border-transparent border-b-sky-500 mx-auto mb-1"></div>
+                        <span class="text-xs">Triangle</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="lines-panel" class="panel-content hidden p-4">
+                <h3 class="font-semibold text-gray-900 mb-4">Lines</h3>
+                <div class="space-y-3">
+                    <div class="draggable p-3 bg-gray-50 rounded hover:bg-gray-100 transition-colors" data-element="line">
+                        <div class="w-full h-px bg-gray-600 my-3"></div>
+                        <span class="text-xs">Straight Line</span>
+                    </div>
+                    <div class="draggable p-3 bg-gray-50 rounded hover:bg-gray-100 transition-colors" data-element="dashed-line">
+                        <div class="w-full h-px border-t border-dashed border-gray-600 my-3"></div>
+                        <span class="text-xs">Dashed Line</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Canvas Area -->
+        <div class="flex-1 flex flex-col">
+            <!-- Canvas -->
+            <div class="flex-1 canvas-area bg-gray-100 p-8 overflow-auto">
+                <div id="canvas" class="bg-white mx-auto shadow-lg relative" style="width: 794px; height: 1123px; min-height: 1123px;">
+                    <!-- Canvas content will be added here -->
+                    <div class="absolute inset-0 flex items-center justify-center text-gray-400">
+                        <div class="text-center">
+                            <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <p class="text-lg font-medium">Start designing your business plan</p>
+                            <p class="text-sm">Drag elements from the sidebar to get started</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let activePanel = null;
+        let draggedElement = null;
+        let elementCounter = 0;
+
+        // Sidebar panel toggle
+        document.querySelectorAll('.sidebar-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const panelName = this.dataset.panel;
+                const sidePanel = document.getElementById('sidePanel');
+                const targetPanel = document.getElementById(panelName + '-panel');
+                
+                // Remove active state from all buttons
+                document.querySelectorAll('.sidebar-btn').forEach(b => {
+                    b.classList.remove('bg-sky-100', 'text-sky-600');
+                    b.classList.add('text-gray-600');
+                });
+                
+                // Hide all panels
+                document.querySelectorAll('.panel-content').forEach(panel => {
+                    panel.classList.add('hidden');
+                });
+                
+                if (activePanel === panelName) {
+                    // Close panel if clicking same button
+                    sidePanel.classList.add('hidden');
+                    activePanel = null;
+                } else {
+                    // Show new panel
+                    sidePanel.classList.remove('hidden');
+                    targetPanel.classList.remove('hidden');
+                    this.classList.add('bg-sky-100', 'text-sky-600');
+                    this.classList.remove('text-gray-600');
+                    activePanel = panelName;
+                }
+            });
+        });
+
+        // Drag and drop functionality
+        document.addEventListener('dragstart', function(e) {
+            if (e.target.classList.contains('draggable')) {
+                draggedElement = e.target;
+                e.dataTransfer.effectAllowed = 'copy';
+            }
+        });
+
+        document.addEventListener('dragover', function(e) {
+            if (e.target.id === 'canvas' || e.target.closest('#canvas')) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'copy';
+            }
+        });
+
+        document.addEventListener('drop', function(e) {
+            if ((e.target.id === 'canvas' || e.target.closest('#canvas')) && draggedElement) {
+                e.preventDefault();
+                
+                const canvas = document.getElementById('canvas');
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                createElement(draggedElement.dataset.element, x, y);
+                draggedElement = null;
+            }
+        });
+
+        // Click to add functionality for non-draggable elements
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('draggable') || e.target.closest('.draggable')) {
+                const element = e.target.classList.contains('draggable') ? e.target : e.target.closest('.draggable');
+                if (element.dataset.element) {
+                    createElement(element.dataset.element, 100, 100);
+                }
+            }
+        });
+
+        function createElement(type, x, y) {
+            const canvas = document.getElementById('canvas');
+            const element = document.createElement('div');
+            element.className = 'canvas-element';
+            element.style.left = x + 'px';
+            element.style.top = y + 'px';
+            element.id = 'element-' + (++elementCounter);
+            
+            switch(type) {
+                case 'heading':
+                    element.innerHTML = '<h1 class="text-2xl font-bold text-gray-900 p-2" contenteditable="true">Your Heading Here</h1>';
+                    break;
+                case 'subheading':
+                    element.innerHTML = '<h2 class="text-lg font-semibold text-gray-700 p-2" contenteditable="true">Your Subheading Here</h2>';
+                    break;
+                case 'body':
+                    element.innerHTML = '<p class="text-sm text-gray-600 p-2" contenteditable="true">Add your body text here. Click to edit this text.</p>';
+                    break;
+                case 'button':
+                    element.innerHTML = '<button class="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 transition-colors">Button</button>';
+                    break;
+                case 'rectangle':
+                    element.innerHTML = '<div class="w-24 h-16 bg-sky-500 rounded"></div>';
+                    break;
+                case 'circle':
+                    element.innerHTML = '<div class="w-16 h-16 bg-sky-500 rounded-full"></div>';
+                    break;
+                case 'triangle':
+                    element.innerHTML = '<div class="w-0 h-0 border-l-8 border-r-8 border-b-12 border-transparent border-b-sky-500"></div>';
+                    break;
+                case 'line':
+                    element.innerHTML = '<div class="w-32 h-px bg-gray-600"></div>';
+                    break;
+                case 'dashed-line':
+                    element.innerHTML = '<div class="w-32 h-px border-t border-dashed border-gray-600"></div>';
+                    break;
+                case 'bar-chart':
+                    element.innerHTML = `
+                        <div class="p-4 bg-white border rounded">
+                            <div class="flex items-end space-x-2 h-20">
+                                <div class="w-8 h-12 bg-sky-500"></div>
+                                <div class="w-8 h-16 bg-sky-500"></div>
+                                <div class="w-8 h-8 bg-sky-500"></div>
+                                <div class="w-8 h-20 bg-sky-500"></div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'pie-chart':
+                    element.innerHTML = '<div class="w-24 h-24 rounded-full bg-gradient-to-r from-sky-500 via-blue-500 to-purple-500"></div>';
+                    break;
+                default:
+                    element.innerHTML = '<div class="p-4 bg-gray-100 border rounded">New Element</div>';
+            }
+            
+            // Make element draggable within canvas
+            makeElementDraggable(element);
+            
+            // Add click handler for selection
+            element.addEventListener('click', function(e) {
+                e.stopPropagation();
+                selectElement(element);
+            });
+            
+            canvas.appendChild(element);
+            selectElement(element);
+        }
+
+        function makeElementDraggable(element) {
+            let isDragging = false;
+            let startX, startY, startLeft, startTop;
+            
+            element.addEventListener('mousedown', function(e) {
+                if (e.target.contentEditable === 'true') return;
+                
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                startLeft = parseInt(element.style.left);
+                startTop = parseInt(element.style.top);
+                
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+                e.preventDefault();
+            });
+            
+            function onMouseMove(e) {
+                if (!isDragging) return;
+                
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+                
+                element.style.left = (startLeft + deltaX) + 'px';
+                element.style.top = (startTop + deltaY) + 'px';
+            }
+            
+            function onMouseUp() {
+                isDragging = false;
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+        }
+
+        function selectElement(element) {
+            // Remove selection from all elements
+            document.querySelectorAll('.canvas-element').forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // Select current element
+            element.classList.add('selected');
+        }
+
+        // Deselect when clicking on canvas
+        document.getElementById('canvas').addEventListener('click', function(e) {
+            if (e.target.id === 'canvas') {
+                document.querySelectorAll('.canvas-element').forEach(el => {
+                    el.classList.remove('selected');
+                });
+            }
+        });
+
+        // Delete selected element with Delete key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Delete') {
+                const selected = document.querySelector('.canvas-element.selected');
+                if (selected) {
+                    selected.remove();
+                }
+            }
+        });
+
+        // Make draggable elements actually draggable
+        document.querySelectorAll('.draggable').forEach(element => {
+            element.draggable = true;
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97c22bf5d4f14ed5',t:'MTc1NzM3MzU3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

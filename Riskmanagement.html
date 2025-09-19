@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Risk Management Analysis - Smartwake AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .brand-gradient {
+            background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 50%, #7dd3fc 100%);
+        }
+        
+        .grok-gradient {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+        }
+        
+        .chat-message {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .typing-indicator {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+        
+        .risk-meter {
+            background: conic-gradient(from 0deg, #10b981 0deg 120deg, #f59e0b 120deg 240deg, #ef4444 240deg 360deg);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+        
+        .sidebar-transition {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 200px;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Header -->
+    <header class="bg-black border-b border-gray-800 px-6 py-4">
+        <div class="flex items-center justify-between max-w-7xl mx-auto">
+            <!-- Left: Logo and Title -->
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 brand-gradient rounded-xl flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">SI</span>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold" style="color: #0ea5e9;">Smartwake AI</span>
+                        <div class="text-sm text-gray-400">Business Risk Analysis</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Center: Model Selector -->
+            <div class="flex items-center space-x-4">
+                <select class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:border-sky-500 focus:outline-none">
+                    <option>SmartAi-2 (Latest)</option>
+                    <option>SmartAi-1.5 Vision</option>
+                    <option>SmartAi-1.5</option>
+                    <option>Risk Analysis Pro</option>
+                </select>
+                <div class="flex items-center space-x-2 text-sm text-gray-400">
+                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span>Online</span>
+                </div>
+            </div>
+            
+            <!-- Right: Actions -->
+            <div class="flex items-center space-x-3">
+                <button class="p-2 text-gray-400 hover:text-white transition-colors" title="Settings">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </button>
+                <button class="p-2 text-gray-400 hover:text-white transition-colors" title="Share">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                    </svg>
+                </button>
+                <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center">
+                    <span class="text-white text-sm font-medium">JD</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex h-screen">
+        <!-- Left Sidebar -->
+        <div id="sidebar" class="w-80 bg-gray-900 border-r border-gray-800 flex flex-col sidebar-transition">
+            <!-- Sidebar Header -->
+            <div class="p-4 border-b border-gray-800">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold">Risk Analysis Tools</h2>
+                    <button id="sidebarToggle" class="p-2 text-gray-400 hover:text-white transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="p-4 space-y-3">
+                <button class="w-full p-3 bg-sky-600 hover:bg-sky-700 rounded-lg transition-colors flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path>
+                    </svg>
+                    <span>New Risk Analysis</span>
+                </button>
+                
+                <button class="w-full p-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    <span>Upload Data</span>
+                </button>
+            </div>
+            
+            <!-- Risk Categories -->
+            <div class="p-4">
+                <h3 class="text-sm font-medium text-gray-400 mb-3">Risk Categories</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between p-2 bg-gray-800 rounded cursor-pointer hover:bg-gray-700 transition-colors">
+                        <span class="text-sm">Financial Risk</span>
+                        <span class="text-xs bg-red-600 px-2 py-1 rounded">High</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-gray-800 rounded cursor-pointer hover:bg-gray-700 transition-colors">
+                        <span class="text-sm">Operational Risk</span>
+                        <span class="text-xs bg-yellow-600 px-2 py-1 rounded">Medium</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-gray-800 rounded cursor-pointer hover:bg-gray-700 transition-colors">
+                        <span class="text-sm">Market Risk</span>
+                        <span class="text-xs bg-green-600 px-2 py-1 rounded">Low</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-gray-800 rounded cursor-pointer hover:bg-gray-700 transition-colors">
+                        <span class="text-sm">Compliance Risk</span>
+                        <span class="text-xs bg-yellow-600 px-2 py-1 rounded">Medium</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Analyses -->
+            <div class="p-4 flex-1">
+                <h3 class="text-sm font-medium text-gray-400 mb-3">Recent Analyses</h3>
+                <div class="space-y-2">
+                    <div class="p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors">
+                        <div class="text-sm font-medium">Tech Startup Risk Assessment</div>
+                        <div class="text-xs text-gray-400">2 hours ago</div>
+                    </div>
+                    <div class="p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors">
+                        <div class="text-sm font-medium">E-commerce Platform Analysis</div>
+                        <div class="text-xs text-gray-400">1 day ago</div>
+                    </div>
+                    <div class="p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors">
+                        <div class="text-sm font-medium">Manufacturing Risk Review</div>
+                        <div class="text-xs text-gray-400">3 days ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col">
+            <!-- Chat Area -->
+            <div id="chatArea" class="flex-1 overflow-y-auto p-6 space-y-6">
+                <!-- Welcome Message -->
+                <div class="chat-message">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="bg-gray-800 rounded-lg p-4">
+                                <div class="text-sm text-gray-300 mb-2">Smartwake AI Risk Analyst</div>
+                                <div class="text-white">
+                                    <h3 class="text-lg font-semibold mb-2">Welcome to Business Risk Management Analysis! 🎯</h3>
+                                    <p class="mb-4">I'm your AI-powered risk analyst, ready to help you identify, assess, and mitigate business risks. I can analyze your business data and provide comprehensive risk assessments with actionable recommendations.</p>
+                                    
+                                    <div class="bg-gray-700 rounded-lg p-4 mb-4">
+                                        <h4 class="font-medium mb-2">What I can help you with:</h4>
+                                        <ul class="space-y-1 text-sm text-gray-300">
+                                            <li>• Financial risk assessment and forecasting</li>
+                                            <li>• Operational risk identification and mitigation</li>
+                                            <li>• Market and competitive risk analysis</li>
+                                            <li>• Compliance and regulatory risk evaluation</li>
+                                            <li>• Strategic risk planning and scenario modeling</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <p class="text-sm text-gray-300">To get started, you can upload your business data, describe your current situation, or ask me specific questions about risk management.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sample Risk Dashboard -->
+                <div class="chat-message">
+                    <div class="bg-gray-800 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4">Current Risk Overview Dashboard</h3>
+                        
+                        <!-- Risk Metrics Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                            <div class="bg-gray-700 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm text-gray-300">Overall Risk Score</span>
+                                    <div class="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                                </div>
+                                <div class="text-2xl font-bold text-yellow-400">6.7/10</div>
+                                <div class="text-xs text-gray-400">Medium Risk</div>
+                            </div>
+                            
+                            <div class="bg-gray-700 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm text-gray-300">Financial Health</span>
+                                    <div class="w-4 h-4 bg-green-500 rounded-full"></div>
+                                </div>
+                                <div class="text-2xl font-bold text-green-400">8.2/10</div>
+                                <div class="text-xs text-gray-400">Good</div>
+                            </div>
+                            
+                            <div class="bg-gray-700 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm text-gray-300">Market Position</span>
+                                    <div class="w-4 h-4 bg-red-500 rounded-full"></div>
+                                </div>
+                                <div class="text-2xl font-bold text-red-400">4.1/10</div>
+                                <div class="text-xs text-gray-400">Needs Attention</div>
+                            </div>
+                            
+                            <div class="bg-gray-700 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm text-gray-300">Compliance</span>
+                                    <div class="w-4 h-4 bg-green-500 rounded-full"></div>
+                                </div>
+                                <div class="text-2xl font-bold text-green-400">9.1/10</div>
+                                <div class="text-xs text-gray-400">Excellent</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Risk Chart -->
+                        <div class="bg-gray-700 rounded-lg p-4">
+                            <h4 class="font-medium mb-3">Risk Trend Analysis</h4>
+                            <div class="chart-container">
+                                <svg class="w-full h-full" viewBox="0 0 400 200">
+                                    <defs>
+                                        <linearGradient id="riskGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" style="stop-color:#ef4444;stop-opacity:0.3" />
+                                            <stop offset="100%" style="stop-color:#ef4444;stop-opacity:0" />
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M 0 150 L 50 120 L 100 100 L 150 130 L 200 110 L 250 90 L 300 100 L 350 80 L 400 70" 
+                                          stroke="#ef4444" stroke-width="2" fill="none"/>
+                                    <path d="M 0 150 L 50 120 L 100 100 L 150 130 L 200 110 L 250 90 L 300 100 L 350 80 L 400 70 L 400 200 L 0 200 Z" 
+                                          fill="url(#riskGradient)"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="border-t border-gray-800 p-4">
+                <div class="max-w-4xl mx-auto">
+                    <!-- Quick Actions Bar -->
+                    <div class="flex items-center space-x-2 mb-4">
+                        <button class="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-full text-sm transition-colors flex items-center space-x-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.586-6.586a2 2 0 00-2.828-2.828z"></path>
+                            </svg>
+                            <span>Upload Financial Data</span>
+                        </button>
+                        <button class="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-full text-sm transition-colors flex items-center space-x-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <span>Generate Report</span>
+                        </button>
+                        <button class="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-full text-sm transition-colors flex items-center space-x-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            <span>Quick Analysis</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Main Input -->
+                    <div class="relative">
+                        <textarea 
+                            id="messageInput" 
+                            placeholder="Describe your business situation, upload data, or ask about specific risks you want to analyze..."
+                            class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 pr-12 text-white placeholder-gray-400 focus:border-sky-500 focus:outline-none resize-none"
+                            rows="3"
+                        ></textarea>
+                        
+                        <!-- Input Actions -->
+                        <div class="absolute bottom-3 right-3 flex items-center space-x-2">
+                            <button class="p-1 text-gray-400 hover:text-white transition-colors" title="Attach file">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.586-6.586a2 2 0 00-2.828-2.828z"></path>
+                                </svg>
+                            </button>
+                            <button id="sendButton" class="p-1 text-sky-400 hover:text-sky-300 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer Info -->
+                    <div class="flex items-center justify-between mt-3 text-xs text-gray-500">
+                        <div class="flex items-center space-x-4">
+                            <span>Powered by Smartwake AI</span>
+                            <span>•</span>
+                            <span>Real-time risk analysis</span>
+                            <span>•</span>
+                            <span>Enterprise-grade security</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span>Press Enter to send</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel (Hidden by default, can be toggled) -->
+        <div id="rightPanel" class="w-80 bg-gray-900 border-l border-gray-800 hidden">
+            <div class="p-4">
+                <h3 class="text-lg font-semibold mb-4">Analysis Tools</h3>
+                
+                <!-- Risk Calculator -->
+                <div class="bg-gray-800 rounded-lg p-4 mb-4">
+                    <h4 class="font-medium mb-3">Risk Score Calculator</h4>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="text-sm text-gray-300">Revenue Volatility (%)</label>
+                            <input type="range" class="w-full" min="0" max="100" value="25">
+                        </div>
+                        <div>
+                            <label class="text-sm text-gray-300">Market Competition</label>
+                            <select class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white">
+                                <option>Low</option>
+                                <option>Medium</option>
+                                <option>High</option>
+                            </select>
+                        </div>
+                        <button class="w-full bg-sky-600 hover:bg-sky-700 rounded py-2 transition-colors">Calculate Risk</button>
+                    </div>
+                </div>
+                
+                <!-- Export Options -->
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <h4 class="font-medium mb-3">Export Analysis</h4>
+                    <div class="space-y-2">
+                        <button class="w-full bg-gray-700 hover:bg-gray-600 rounded py-2 transition-colors text-sm">PDF Report</button>
+                        <button class="w-full bg-gray-700 hover:bg-gray-600 rounded py-2 transition-colors text-sm">Excel Dashboard</button>
+                        <button class="w-full bg-gray-700 hover:bg-gray-600 rounded py-2 transition-colors text-sm">PowerPoint Slides</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let messageHistory = [];
+        
+        // Sidebar toggle
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        });
+        
+        // Send message functionality
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate AI response
+            setTimeout(() => {
+                hideTypingIndicator();
+                generateAIResponse(message);
+            }, 1500);
+        }
+        
+        function addMessage(content, sender) {
+            const chatArea = document.getElementById('chatArea');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message';
+            
+            if (sender === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="flex items-start space-x-4 justify-end">
+                        <div class="flex-1 max-w-3xl">
+                            <div class="bg-sky-600 rounded-lg p-4">
+                                <div class="text-white">${content}</div>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white text-sm font-medium">U</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="flex items-start space-x-4">
+                        <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="bg-gray-800 rounded-lg p-4">
+                                <div class="text-sm text-gray-300 mb-2">Smartwake AI Risk Analyst</div>
+                                <div class="text-white">${content}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            chatArea.appendChild(messageDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+        
+        function showTypingIndicator() {
+            const chatArea = document.getElementById('chatArea');
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typingIndicator';
+            typingDiv.className = 'chat-message';
+            typingDiv.innerHTML = `
+                <div class="flex items-start space-x-4">
+                    <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <div class="bg-gray-800 rounded-lg p-4">
+                            <div class="text-sm text-gray-300 mb-2">Smartwake AI Risk Analyst</div>
+                            <div class="flex items-center space-x-2">
+                                <div class="typing-indicator w-2 h-2 bg-gray-400 rounded-full"></div>
+                                <div class="typing-indicator w-2 h-2 bg-gray-400 rounded-full" style="animation-delay: 0.2s;"></div>
+                                <div class="typing-indicator w-2 h-2 bg-gray-400 rounded-full" style="animation-delay: 0.4s;"></div>
+                                <span class="text-gray-400 text-sm">Analyzing your request...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatArea.appendChild(typingDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+        
+        function hideTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+        
+        function generateAIResponse(userMessage) {
+            const responses = [
+                `<h3 class="text-lg font-semibold mb-3">Risk Analysis Complete 📊</h3>
+                <p class="mb-4">Based on your input, I've identified several key risk areas that require attention:</p>
+                
+                <div class="bg-gray-700 rounded-lg p-4 mb-4">
+                    <h4 class="font-medium mb-2 text-red-400">🔴 High Priority Risks:</h4>
+                    <ul class="space-y-1 text-sm">
+                        <li>• Cash flow volatility (Risk Score: 8.2/10)</li>
+                        <li>• Market competition intensity (Risk Score: 7.8/10)</li>
+                        <li>• Regulatory compliance gaps (Risk Score: 7.1/10)</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-700 rounded-lg p-4 mb-4">
+                    <h4 class="font-medium mb-2 text-yellow-400">🟡 Medium Priority Risks:</h4>
+                    <ul class="space-y-1 text-sm">
+                        <li>• Supply chain dependencies (Risk Score: 5.9/10)</li>
+                        <li>• Technology obsolescence (Risk Score: 5.2/10)</li>
+                    </ul>
+                </div>
+                
+                <p class="text-sm text-gray-300">Would you like me to provide detailed mitigation strategies for any of these risks?</p>`,
+                
+                `<h3 class="text-lg font-semibold mb-3">Financial Risk Assessment 💰</h3>
+                <p class="mb-4">I've analyzed your financial data and created a comprehensive risk profile:</p>
+                
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="bg-gray-700 rounded-lg p-3">
+                        <div class="text-sm text-gray-300">Liquidity Risk</div>
+                        <div class="text-xl font-bold text-yellow-400">Medium</div>
+                        <div class="text-xs text-gray-400">6.2/10</div>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-3">
+                        <div class="text-sm text-gray-300">Credit Risk</div>
+                        <div class="text-xl font-bold text-green-400">Low</div>
+                        <div class="text-xs text-gray-400">3.1/10</div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-700 rounded-lg p-4">
+                    <h4 class="font-medium mb-2">Recommendations:</h4>
+                    <ul class="space-y-1 text-sm text-gray-300">
+                        <li>1. Establish a 6-month cash reserve fund</li>
+                        <li>2. Diversify revenue streams to reduce dependency</li>
+                        <li>3. Implement monthly cash flow forecasting</li>
+                    </ul>
+                </div>`,
+                
+                `<h3 class="text-lg font-semibold mb-3">Market Risk Analysis 📈</h3>
+                <p class="mb-4">Here's your market position and competitive risk assessment:</p>
+                
+                <div class="bg-gray-700 rounded-lg p-4 mb-4">
+                    <h4 class="font-medium mb-2">Market Dynamics:</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span>Market Growth Rate:</span>
+                            <span class="text-green-400">+12.5% YoY</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Competitive Intensity:</span>
+                            <span class="text-red-400">High</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Market Share:</span>
+                            <span class="text-yellow-400">8.3%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-sm text-gray-300">The market shows strong growth potential, but increased competition requires strategic positioning adjustments.</p>`
+            ];
+            
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            addMessage(randomResponse, 'ai');
+        }
+        
+        // Event listeners
+        document.getElementById('sendButton').addEventListener('click', sendMessage);
+        
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Quick action buttons
+        document.querySelectorAll('.bg-gray-800').forEach(button => {
+            if (button.textContent.includes('Upload') || button.textContent.includes('Generate') || button.textContent.includes('Quick')) {
+                button.addEventListener('click', function() {
+                    const action = this.textContent.trim();
+                    addMessage(`I'd like to ${action.toLowerCase()}`, 'user');
+                    
+                    setTimeout(() => {
+                        if (action.includes('Upload')) {
+                            addMessage(`<h3 class="text-lg font-semibold mb-3">Data Upload Ready 📁</h3>
+                            <p class="mb-4">Please upload your business data files. I can analyze:</p>
+                            <ul class="space-y-1 text-sm text-gray-300 mb-4">
+                                <li>• Financial statements (P&L, Balance Sheet, Cash Flow)</li>
+                                <li>• Sales and revenue data</li>
+                                <li>• Operational metrics</li>
+                                <li>• Market research reports</li>
+                            </ul>
+                            <div class="bg-gray-700 rounded-lg p-4 border-2 border-dashed border-gray-600 text-center">
+                                <svg class="w-8 h-8 mx-auto mb-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                </svg>
+                                <p class="text-sm text-gray-400">Drag and drop files here or click to browse</p>
+                            </div>`, 'ai');
+                        } else if (action.includes('Generate')) {
+                            addMessage(`<h3 class="text-lg font-semibold mb-3">Risk Report Generated 📋</h3>
+                            <p class="mb-4">Your comprehensive risk management report is ready:</p>
+                            <div class="space-y-3">
+                                <div class="bg-gray-700 rounded-lg p-3 flex items-center justify-between">
+                                    <span class="text-sm">Executive Summary Report</span>
+                                    <button class="bg-sky-600 hover:bg-sky-700 px-3 py-1 rounded text-xs transition-colors">Download PDF</button>
+                                </div>
+                                <div class="bg-gray-700 rounded-lg p-3 flex items-center justify-between">
+                                    <span class="text-sm">Detailed Risk Analysis</span>
+                                    <button class="bg-sky-600 hover:bg-sky-700 px-3 py-1 rounded text-xs transition-colors">Download Excel</button>
+                                </div>
+                                <div class="bg-gray-700 rounded-lg p-3 flex items-center justify-between">
+                                    <span class="text-sm">Mitigation Action Plan</span>
+                                    <button class="bg-sky-600 hover:bg-sky-700 px-3 py-1 rounded text-xs transition-colors">Download Word</button>
+                                </div>
+                            </div>`, 'ai');
+                        } else {
+                            generateAIResponse(action);
+                        }
+                    }, 1000);
+                });
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ca04cc6614f01f',t:'MTc1NzQ1NTg1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

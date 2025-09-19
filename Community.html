@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - Smartwake Community</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .brand-gradient {
+            background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 50%, #7dd3fc 100%);
+        }
+        
+        .community-gradient {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .post-card {
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .post-card:hover {
+            border-color: #334155;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .story-ring {
+            background: linear-gradient(45deg, #0ea5e9, #38bdf8, #7dd3fc);
+            padding: 2px;
+            border-radius: 50%;
+        }
+        
+        .story-inner {
+            background: #1e293b;
+            border-radius: 50%;
+            padding: 2px;
+        }
+        
+        .chat-bubble {
+            animation: slideInUp 0.3s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .notification-dot {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .reaction-button {
+            transition: all 0.2s ease;
+        }
+        
+        .reaction-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .online-indicator {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background: #10b981;
+            border: 2px solid #1e293b;
+            border-radius: 50%;
+        }
+        
+        .job-card {
+            transition: all 0.3s ease;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.2);
+        }
+        
+        .message-input {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .sidebar-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: #475569 #1e293b;
+        }
+        
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+        
+        .post-animation {
+            animation: postSlideIn 0.5s ease-out;
+        }
+        
+        @keyframes postSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen">
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700 px-4 py-3 sticky top-0 z-50">
+        <div class="flex items-center justify-between max-w-7xl mx-auto">
+            <!-- Left: Logo and Search -->
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 brand-gradient rounded-xl flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">SI</span>
+                    </div>
+                    <span class="text-xl font-bold hidden sm:block" style="color: #0ea5e9;">Smartwake Community</span>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="relative hidden md:block">
+                    <input 
+                        type="text" 
+                        placeholder="Search posts, people, jobs..."
+                        class="bg-slate-700 border border-slate-600 rounded-full px-4 py-2 pl-10 w-80 text-white placeholder-slate-400 focus:border-sky-500 focus:outline-none"
+                    >
+                    <svg class="w-5 h-5 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- Center: Navigation -->
+            <nav class="hidden lg:flex space-x-1">
+                <button class="p-3 text-sky-400 bg-slate-700 rounded-lg" title="Home">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                </button>
+                <button class="p-3 text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition-colors" title="Jobs">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 01-2 2H10a2 2 0 01-2-2V6"></path>
+                    </svg>
+                </button>
+                <button class="p-3 text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition-colors relative" title="Messages">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                    <div class="notification-dot absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
+                </button>
+                <button class="p-3 text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition-colors relative" title="Notifications">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM4 19h10a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    <div class="notification-dot absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
+                </button>
+                <button class="p-3 text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg transition-colors" title="Groups">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                </button>
+            </nav>
+            
+            <!-- Right: User Menu -->
+            <div class="flex items-center space-x-3">
+                <button class="p-2 text-slate-400 hover:text-white transition-colors md:hidden">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+                <div class="relative">
+                    <div class="w-10 h-10 bg-sky-500 rounded-full flex items-center justify-center cursor-pointer">
+                        <span class="text-white text-sm font-medium">JD</span>
+                    </div>
+                    <div class="online-indicator"></div>
+                </div>
+                <button class="p-2 text-slate-400 hover:text-white transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex max-w-7xl mx-auto">
+        <!-- Left Sidebar -->
+        <div class="w-80 bg-slate-800 min-h-screen p-4 hidden lg:block sidebar-scroll overflow-y-auto">
+            <!-- User Profile Card -->
+            <div class="bg-slate-700 rounded-lg p-4 mb-6">
+                <div class="flex items-center space-x-3 mb-3">
+                    <div class="relative">
+                        <div class="w-12 h-12 bg-sky-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-medium">JD</span>
+                        </div>
+                        <div class="online-indicator"></div>
+                    </div>
+                    <div>
+                        <div class="font-medium">John Doe</div>
+                        <div class="text-sm text-slate-400">Software Engineer</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <div>
+                        <div class="text-lg font-bold text-sky-400">1.2K</div>
+                        <div class="text-xs text-slate-400">Connections</div>
+                    </div>
+                    <div>
+                        <div class="text-lg font-bold text-green-400">89</div>
+                        <div class="text-xs text-slate-400">Posts</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="mb-6">
+                <h3 class="text-sm font-medium text-slate-300 mb-3">Quick Actions</h3>
+                <div class="space-y-2">
+                    <button class="w-full flex items-center space-x-3 p-3 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
+                        <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        <span class="text-sm">Create Post</span>
+                    </button>
+                    <button class="w-full flex items-center space-x-3 p-3 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
+                        <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 01-2 2H10a2 2 0 01-2-2V6"></path>
+                        </svg>
+                        <span class="text-sm">Post Job</span>
+                    </button>
+                    <button class="w-full flex items-center space-x-3 p-3 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors">
+                        <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span class="text-sm">Find People</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Trending Topics -->
+            <div class="mb-6">
+                <h3 class="text-sm font-medium text-slate-300 mb-3">Trending Topics</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between p-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 transition-colors">
+                        <span class="text-sm">#RemoteWork</span>
+                        <span class="text-xs text-slate-400">2.1K posts</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 transition-colors">
+                        <span class="text-sm">#TechJobs</span>
+                        <span class="text-xs text-slate-400">1.8K posts</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 transition-colors">
+                        <span class="text-sm">#StartupLife</span>
+                        <span class="text-xs text-slate-400">1.5K posts</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 transition-colors">
+                        <span class="text-sm">#AIInnovation</span>
+                        <span class="text-xs text-slate-400">1.2K posts</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Suggested Groups -->
+            <div>
+                <h3 class="text-sm font-medium text-slate-300 mb-3">Suggested Groups</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3 p-3 bg-slate-700 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-sm font-medium">Tech Entrepreneurs</div>
+                            <div class="text-xs text-slate-400">15.2K members</div>
+                        </div>
+                        <button class="px-3 py-1 bg-sky-600 hover:bg-sky-700 rounded text-xs transition-colors">Join</button>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 p-3 bg-slate-700 rounded-lg">
+                        <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-sm font-medium">Digital Marketing</div>
+                            <div class="text-xs text-slate-400">8.7K members</div>
+                        </div>
+                        <button class="px-3 py-1 bg-sky-600 hover:bg-sky-700 rounded text-xs transition-colors">Join</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-4 max-w-2xl">
+            <!-- Stories Section -->
+            <div class="mb-6">
+                <div class="flex space-x-4 overflow-x-auto pb-2">
+                    <!-- Add Story -->
+                    <div class="flex-shrink-0 cursor-pointer">
+                        <div class="w-20 h-20 bg-slate-700 rounded-full flex items-center justify-center border-2 border-dashed border-slate-600 hover:border-sky-500 transition-colors">
+                            <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                        </div>
+                        <div class="text-xs text-center mt-2 text-slate-400">Add Story</div>
+                    </div>
+                    
+                    <!-- User Stories -->
+                    <div class="flex-shrink-0 cursor-pointer">
+                        <div class="story-ring rounded-full">
+                            <div class="story-inner rounded-full">
+                                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                                    <span class="text-white font-medium">AS</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-center mt-2">Alice Smith</div>
+                    </div>
+                    
+                    <div class="flex-shrink-0 cursor-pointer">
+                        <div class="story-ring rounded-full">
+                            <div class="story-inner rounded-full">
+                                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+                                    <span class="text-white font-medium">BJ</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-center mt-2">Bob Johnson</div>
+                    </div>
+                    
+                    <div class="flex-shrink-0 cursor-pointer">
+                        <div class="story-ring rounded-full">
+                            <div class="story-inner rounded-full">
+                                <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
+                                    <span class="text-white font-medium">CW</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-center mt-2">Carol Wilson</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Create Post -->
+            <div class="bg-slate-800 rounded-lg p-4 mb-6">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="w-10 h-10 bg-sky-500 rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-medium">JD</span>
+                    </div>
+                    <input 
+                        id="postInput"
+                        type="text" 
+                        placeholder="What's on your mind, John?"
+                        class="flex-1 bg-slate-700 border border-slate-600 rounded-full px-4 py-2 text-white placeholder-slate-400 focus:border-sky-500 focus:outline-none"
+                    >
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex space-x-4">
+                        <button class="flex items-center space-x-2 text-slate-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 7v2.99s-1.99.01-2 0V7h-3s.01-1.99 0-2h3V2h2v3h3v2h-3zm-3 4V8h-3V5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8h-3zM5 19l3-4 2 3 3-4 4 5H5z"/>
+                            </svg>
+                            <span class="text-sm">Photo</span>
+                        </button>
+                        <button class="flex items-center space-x-2 text-slate-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18 3v2h-2V3H8v2H6V3H4v18h16V3h-2zM6 19V7h12v12H6z"/>
+                            </svg>
+                            <span class="text-sm">Event</span>
+                        </button>
+                        <button class="flex items-center space-x-2 text-slate-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            <span class="text-sm">Job</span>
+                        </button>
+                    </div>
+                    <button id="postButton" class="px-6 py-2 bg-sky-600 hover:bg-sky-700 rounded-lg text-sm font-medium transition-colors">Post</button>
+                </div>
+            </div>
+            
+            <!-- Posts Feed -->
+            <div id="postsFeed" class="space-y-6">
+                <!-- Job Post -->
+                <div class="post-card bg-slate-800 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
+                                <span class="text-white font-medium">TC</span>
+                            </div>
+                            <div>
+                                <div class="font-medium">TechCorp Inc.</div>
+                                <div class="text-sm text-slate-400">2 hours ago • 📍 Remote</div>
+                            </div>
+                        </div>
+                        <button class="text-slate-400 hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <span class="px-2 py-1 bg-green-600 rounded text-xs font-medium">JOB POSTING</span>
+                            <span class="px-2 py-1 bg-blue-600 rounded text-xs">Full-time</span>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">Senior Frontend Developer</h3>
+                        <p class="text-slate-300 mb-3">We're looking for a talented Senior Frontend Developer to join our growing team. You'll work on cutting-edge web applications using React, TypeScript, and modern development tools.</p>
+                        
+                        <div class="bg-slate-700 rounded-lg p-4 mb-4">
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <span class="text-slate-400">Salary:</span>
+                                    <span class="text-green-400 font-medium ml-2">$80K - $120K</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400">Experience:</span>
+                                    <span class="text-white ml-2">5+ years</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400">Location:</span>
+                                    <span class="text-white ml-2">Remote/Hybrid</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400">Type:</span>
+                                    <span class="text-white ml-2">Full-time</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-slate-600 rounded text-xs">React</span>
+                            <span class="px-2 py-1 bg-slate-600 rounded text-xs">TypeScript</span>
+                            <span class="px-2 py-1 bg-slate-600 rounded text-xs">Node.js</span>
+                            <span class="px-2 py-1 bg-slate-600 rounded text-xs">GraphQL</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-700">
+                        <div class="flex space-x-6">
+                            <button class="flex items-center space-x-2 text-slate-400 hover:text-sky-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                                <span class="text-sm">24</span>
+                            </button>
+                            <button class="flex items-center space-x-2 text-slate-400 hover:text-blue-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                                <span class="text-sm">8</span>
+                            </button>
+                            <button class="flex items-center space-x-2 text-slate-400 hover:text-green-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                                </svg>
+                                <span class="text-sm">Share</span>
+                            </button>
+                        </div>
+                        <button class="px-4 py-2 bg-sky-600 hover:bg-sky-700 rounded-lg text-sm font-medium transition-colors">Apply Now</button>
+                    </div>
+                </div>
+                
+                <!-- Regular Post -->
+                <div class="post-card bg-slate-800 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
+                                <span class="text-white font-medium">AS</span>
+                            </div>
+                            <div>
+                                <div class="font-medium">Alice Smith</div>
+                                <div class="text-sm text-slate-400">4 hours ago • 🌍 Public</div>
+                            </div>
+                        </div>
+                        <button class="text-slate-400 hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <p class="text-slate-300 mb-4">Just launched my new startup! 🚀 After months of hard work, we're finally ready to revolutionize the way people collaborate remotely. Excited to share this journey with all of you! #StartupLife #RemoteWork #Innovation</p>
+                        
+                        <!-- Post Image -->
+                        <div class="bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg p-8 text-center">
+                            <div class="text-4xl mb-2">🚀</div>
+                            <div class="text-xl font-bold mb-2">CollabSpace</div>
+                            <div class="text-sm opacity-80">The future of remote collaboration</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-700">
+                        <div class="flex space-x-6">
+                            <button class="reaction-button flex items-center space-x-2 text-slate-400 hover:text-red-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                                <span class="text-sm">42</span>
+                            </button>
+                            <button class="reaction-button flex items-center space-x-2 text-slate-400 hover:text-blue-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                                <span class="text-sm">15</span>
+                            </button>
+                            <button class="reaction-button flex items-center space-x-2 text-slate-400 hover:text-green-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                                </svg>
+                                <span class="text-sm">Share</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Comments Section -->
+                    <div class="mt-4 pt-4 border-t border-slate-700">
+                        <div class="space-y-3">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="text-white text-xs font-medium">BJ</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="bg-slate-700 rounded-lg p-3">
+                                        <div class="font-medium text-sm mb-1">Bob Johnson</div>
+                                        <div class="text-sm text-slate-300">Congratulations Alice! This looks amazing. Would love to learn more about the collaboration features.</div>
+                                    </div>
+                                    <div class="flex items-center space-x-4 mt-1 text-xs text-slate-400">
+                                        <button class="hover:text-white">Like</button>
+                                        <button class="hover:text-white">Reply</button>
+                                        <span>2h</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Add Comment -->
+                        <div class="flex items-center space-x-3 mt-4">
+                            <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-xs font-medium">JD</span>
+                            </div>
+                            <input 
+                                type="text" 
+                                placeholder="Write a comment..."
+                                class="flex-1 bg-slate-700 border border-slate-600 rounded-full px-4 py-2 text-white placeholder-slate-400 focus:border-sky-500 focus:outline-none text-sm"
+                            >
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Community Event Post -->
+                <div class="post-card bg-slate-800 rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
+                                <span class="text-white font-medium">CW</span>
+                            </div>
+                            <div>
+                                <div class="font-medium">Carol Wilson</div>
+                                <div class="text-sm text-slate-400">6 hours ago • 📅 Event</div>
+                            </div>
+                        </div>
+                        <button class="text-slate-400 hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="px-2 py-1 bg-purple-600 rounded text-xs font-medium">EVENT</span>
+                            <span class="px-2 py-1 bg-orange-600 rounded text-xs">Networking</span>
+                        </div>
+                        
+                        <h3 class="text-lg font-semibold mb-2">Tech Entrepreneurs Meetup 2024</h3>
+                        <p class="text-slate-300 mb-4">Join us for an exciting networking event where entrepreneurs, developers, and innovators come together to share ideas, collaborate on projects, and build meaningful connections!</p>
+                        
+                        <div class="bg-slate-700 rounded-lg p-4 mb-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <span class="text-slate-400">Date:</span>
+                                    <span class="text-white">March 15, 2024</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span class="text-slate-400">Time:</span>
+                                    <span class="text-white">6:00 PM - 9:00 PM</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    <span class="text-slate-400">Location:</span>
+                                    <span class="text-white">Tech Hub Downtown</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                    <span class="text-slate-400">Attendees:</span>
+                                    <span class="text-white">127 going</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-700">
+                        <div class="flex space-x-6">
+                            <button class="flex items-center space-x-2 text-slate-400 hover:text-red-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                                <span class="text-sm">89</span>
+                            </button>
+                            <button class="flex items-center space-x-2 text-slate-400 hover:text-blue-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                                <span class="text-sm">23</span>
+                            </button>
+                            <button class="flex items-center space-x-2 text-slate-400 hover:text-green-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                                </svg>
+                                <span class="text-sm">Share</span>
+                            </button>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm font-medium transition-colors">Interested</button>
+                            <button class="px-4 py-2 bg-sky-600 hover:bg-sky-700 rounded-lg text-sm font-medium transition-colors">Going</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="w-80 bg-slate-800 min-h-screen p-4 hidden xl:block sidebar-scroll overflow-y-auto">
+            <!-- Active Chats -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">Messages</h3>
+                    <button class="text-slate-400 hover:text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3 p-3 bg-slate-700 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="relative">
+                            <div class="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-medium">AS</span>
+                            </div>
+                            <div class="online-indicator"></div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between">
+                                <div class="font-medium text-sm">Alice Smith</div>
+                                <div class="text-xs text-slate-400">2m</div>
+                            </div>
+                            <div class="text-sm text-slate-400 truncate">Thanks for the collaboration opportunity!</div>
+                        </div>
+                        <div class="w-2 h-2 bg-sky-500 rounded-full"></div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 p-3 bg-slate-700 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="relative">
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-medium">BJ</span>
+                            </div>
+                            <div class="online-indicator"></div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between">
+                                <div class="font-medium text-sm">Bob Johnson</div>
+                                <div class="text-xs text-slate-400">15m</div>
+                            </div>
+                            <div class="text-sm text-slate-400 truncate">Let's discuss the project details</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 p-3 bg-slate-700 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="relative">
+                            <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-medium">CW</span>
+                            </div>
+                            <div class="w-3 h-3 bg-slate-500 rounded-full absolute bottom-0 right-0 border-2 border-slate-800"></div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between">
+                                <div class="font-medium text-sm">Carol Wilson</div>
+                                <div class="text-xs text-slate-400">1h</div>
+                            </div>
+                            <div class="text-sm text-slate-400 truncate">Event planning meeting tomorrow?</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Job Opportunities -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-4">Job Opportunities</h3>
+                <div class="space-y-3">
+                    <div class="job-card bg-slate-700 rounded-lg p-4 cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-sm font-medium">UI/UX Designer</div>
+                            <span class="text-xs bg-green-600 px-2 py-1 rounded">New</span>
+                        </div>
+                        <div class="text-xs text-slate-400 mb-2">DesignCorp • Remote</div>
+                        <div class="text-sm text-green-400 font-medium">$70K - $90K</div>
+                    </div>
+                    
+                    <div class="job-card bg-slate-700 rounded-lg p-4 cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-sm font-medium">Product Manager</div>
+                            <span class="text-xs bg-blue-600 px-2 py-1 rounded">Hot</span>
+                        </div>
+                        <div class="text-xs text-slate-400 mb-2">StartupXYZ • San Francisco</div>
+                        <div class="text-sm text-green-400 font-medium">$100K - $130K</div>
+                    </div>
+                    
+                    <div class="job-card bg-slate-700 rounded-lg p-4 cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-sm font-medium">DevOps Engineer</div>
+                            <span class="text-xs bg-purple-600 px-2 py-1 rounded">Urgent</span>
+                        </div>
+                        <div class="text-xs text-slate-400 mb-2">CloudTech • Remote</div>
+                        <div class="text-sm text-green-400 font-medium">$90K - $120K</div>
+                    </div>
+                </div>
+                
+                <button class="w-full mt-3 p-2 bg-sky-600 hover:bg-sky-700 rounded-lg text-sm font-medium transition-colors">
+                    View All Jobs
+                </button>
+            </div>
+            
+            <!-- Online Friends -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-4">Online Now</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center space-x-3 p-2 hover:bg-slate-700 rounded cursor-pointer transition-colors">
+                        <div class="relative">
+                            <div class="w-8 h-8 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-xs font-medium">DM</span>
+                            </div>
+                            <div class="online-indicator w-3 h-3"></div>
+                        </div>
+                        <div class="text-sm">David Miller</div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 p-2 hover:bg-slate-700 rounded cursor-pointer transition-colors">
+                        <div class="relative">
+                            <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-xs font-medium">EB</span>
+                            </div>
+                            <div class="online-indicator w-3 h-3"></div>
+                        </div>
+                        <div class="text-sm">Emma Brown</div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 p-2 hover:bg-slate-700 rounded cursor-pointer transition-colors">
+                        <div class="relative">
+                            <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-xs font-medium">FG</span>
+                            </div>
+                            <div class="online-indicator w-3 h-3"></div>
+                        </div>
+                        <div class="text-sm">Frank Garcia</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Suggested Connections -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">People You May Know</h3>
+                <div class="space-y-3">
+                    <div class="bg-slate-700 rounded-lg p-4">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-medium">MJ</span>
+                            </div>
+                            <div>
+                                <div class="font-medium text-sm">Mike Johnson</div>
+                                <div class="text-xs text-slate-400">Software Architect</div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="flex-1 px-3 py-1 bg-sky-600 hover:bg-sky-700 rounded text-xs transition-colors">Connect</button>
+                            <button class="flex-1 px-3 py-1 bg-slate-600 hover:bg-slate-500 rounded text-xs transition-colors">Ignore</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-700 rounded-lg p-4">
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-12 h-12 bg-gradient-to-br from-violet-500 to-purple-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-medium">LK</span>
+                            </div>
+                            <div>
+                                <div class="font-medium text-sm">Lisa Kim</div>
+                                <div class="text-xs text-slate-400">Marketing Director</div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="flex-1 px-3 py-1 bg-sky-600 hover:bg-sky-700 rounded text-xs transition-colors">Connect</button>
+                            <button class="flex-1 px-3 py-1 bg-slate-600 hover:bg-slate-500 rounded text-xs transition-colors">Ignore</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Modal (Hidden by default) -->
+    <div id="chatModal" class="fixed bottom-4 right-4 w-80 bg-slate-800 rounded-lg shadow-2xl border border-slate-700 hidden">
+        <div class="flex items-center justify-between p-4 border-b border-slate-700">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <span class="text-white text-xs font-medium">AS</span>
+                </div>
+                <div>
+                    <div class="font-medium text-sm">Alice Smith</div>
+                    <div class="text-xs text-green-400">Online</div>
+                </div>
+            </div>
+            <button id="closeChatModal" class="text-slate-400 hover:text-white">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <div id="chatMessages" class="h-64 overflow-y-auto p-4 space-y-3">
+            <div class="chat-bubble">
+                <div class="flex items-start space-x-2">
+                    <div class="w-6 h-6 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
+                        <span class="text-white text-xs">AS</span>
+                    </div>
+                    <div class="bg-slate-700 rounded-lg p-2 max-w-xs">
+                        <div class="text-sm">Hey! Thanks for connecting. I saw your startup post - very impressive!</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-bubble">
+                <div class="flex items-start space-x-2 justify-end">
+                    <div class="bg-sky-600 rounded-lg p-2 max-w-xs">
+                        <div class="text-sm">Thanks Alice! Would love to discuss potential collaboration opportunities.</div>
+                    </div>
+                    <div class="w-6 h-6 bg-sky-500 rounded-full flex items-center justify-center">
+                        <span class="text-white text-xs">JD</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="p-4 border-t border-slate-700">
+            <div class="flex items-center space-x-2">
+                <input 
+                    id="chatInput"
+                    type="text" 
+                    placeholder="Type a message..."
+                    class="flex-1 bg-slate-700 border border-slate-600 rounded-full px-3 py-2 text-white placeholder-slate-400 focus:border-sky-500 focus:outline-none text-sm"
+                >
+                <button id="sendChatMessage" class="p-2 bg-sky-600 hover:bg-sky-700 rounded-full transition-colors">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Post creation functionality
+        function createPost() {
+            const input = document.getElementById('postInput');
+            const content = input.value.trim();
+            
+            if (!content) return;
+            
+            const postsFeed = document.getElementById('postsFeed');
+            const newPost = document.createElement('div');
+            newPost.className = 'post-card bg-slate-800 rounded-lg p-6 post-animation';
+            
+            newPost.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-sky-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-medium">JD</span>
+                        </div>
+                        <div>
+                            <div class="font-medium">John Doe</div>
+                            <div class="text-sm text-slate-400">Just now • 🌍 Public</div>
+                        </div>
+                    </div>
+                    <button class="text-slate-400 hover:text-white">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="mb-4">
+                    <p class="text-slate-300">${content}</p>
+                </div>
+                
+                <div class="flex items-center justify-between pt-4 border-t border-slate-700">
+                    <div class="flex space-x-6">
+                        <button class="reaction-button flex items-center space-x-2 text-slate-400 hover:text-red-400 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                            <span class="text-sm">0</span>
+                        </button>
+                        <button class="reaction-button flex items-center space-x-2 text-slate-400 hover:text-blue-400 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                            <span class="text-sm">Comment</span>
+                        </button>
+                        <button class="reaction-button flex items-center space-x-2 text-slate-400 hover:text-green-400 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                            </svg>
+                            <span class="text-sm">Share</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            postsFeed.insertBefore(newPost, postsFeed.firstChild);
+            input.value = '';
+        }
+        
+        // Chat functionality
+        function openChatModal() {
+            document.getElementById('chatModal').classList.remove('hidden');
+        }
+        
+        function closeChatModal() {
+            document.getElementById('chatModal').classList.add('hidden');
+        }
+        
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-bubble';
+            messageDiv.innerHTML = `
+                <div class="flex items-start space-x-2 justify-end">
+                    <div class="bg-sky-600 rounded-lg p-2 max-w-xs">
+                        <div class="text-sm">${message}</div>
+                    </div>
+                    <div class="w-6 h-6 bg-sky-500 rounded-full flex items-center justify-center">
+                        <span class="text-white text-xs">JD</span>
+                    </div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            input.value = '';
+            
+            // Simulate response
+            setTimeout(() => {
+                const responseDiv = document.createElement('div');
+                responseDiv.className = 'chat-bubble';
+                responseDiv.innerHTML = `
+                    <div class="flex items-start space-x-2">
+                        <div class="w-6 h-6 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
+                            <span class="text-white text-xs">AS</span>
+                        </div>
+                        <div class="bg-slate-700 rounded-lg p-2 max-w-xs">
+                            <div class="text-sm">That sounds great! Let's schedule a call to discuss further.</div>
+                        </div>
+                    </div>
+                `;
+                chatMessages.appendChild(responseDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        }
+        
+        // Event listeners
+        document.getElementById('postButton').addEventListener('click', createPost);
+        document.getElementById('postInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                createPost();
+            }
+        });
+        
+        // Chat event listeners
+        document.getElementById('closeChatModal').addEventListener('click', closeChatModal);
+        document.getElementById('sendChatMessage').addEventListener('click', sendChatMessage);
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+        
+        // Open chat when clicking on message items
+        document.querySelectorAll('.bg-slate-700').forEach(item => {
+            if (item.querySelector('.online-indicator')) {
+                item.addEventListener('click', openChatModal);
+            }
+        });
+        
+        // Reaction buttons functionality
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.reaction-button')) {
+                const button = e.target.closest('.reaction-button');
+                const countSpan = button.querySelector('span');
+                
+                if (button.classList.contains('text-slate-400')) {
+                    // Like the post
+                    button.classList.remove('text-slate-400', 'hover:text-red-400');
+                    button.classList.add('text-red-400');
+                    
+                    if (countSpan && !isNaN(countSpan.textContent)) {
+                        countSpan.textContent = parseInt(countSpan.textContent) + 1;
+                    }
+                } else {
+                    // Unlike the post
+                    button.classList.remove('text-red-400');
+                    button.classList.add('text-slate-400', 'hover:text-red-400');
+                    
+                    if (countSpan && !isNaN(countSpan.textContent)) {
+                        countSpan.textContent = Math.max(0, parseInt(countSpan.textContent) - 1);
+                    }
+                }
+            }
+        });
+        
+        // Job application functionality
+        document.addEventListener('click', function(e) {
+            if (e.target.textContent === 'Apply Now') {
+                e.target.textContent = 'Applied ✓';
+                e.target.classList.remove('bg-sky-600', 'hover:bg-sky-700');
+                e.target.classList.add('bg-green-600');
+                e.target.disabled = true;
+            }
+        });
+        
+        // Event RSVP functionality
+        document.addEventListener('click', function(e) {
+            if (e.target.textContent === 'Going' || e.target.textContent === 'Interested') {
+                const originalText = e.target.textContent;
+                e.target.textContent = originalText === 'Going' ? 'Going ✓' : 'Interested ✓';
+                e.target.classList.remove('bg-sky-600', 'hover:bg-sky-700', 'bg-green-600', 'hover:bg-green-700');
+                e.target.classList.add('bg-purple-600');
+            }
+        });
+        
+        // Connection functionality
+        document.addEventListener('click', function(e) {
+            if (e.target.textContent === 'Connect') {
+                e.target.textContent = 'Connected ✓';
+                e.target.classList.remove('bg-sky-600', 'hover:bg-sky-700');
+                e.target.classList.add('bg-green-600');
+            }
+        });
+        
+        // Join group functionality
+        document.addEventListener('click', function(e) {
+            if (e.target.textContent === 'Join') {
+                e.target.textContent = 'Joined ✓';
+                e.target.classList.remove('bg-sky-600', 'hover:bg-sky-700');
+                e.target.classList.add('bg-green-600');
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ca61bc310a73f4',t:'MTc1NzQ1OTY2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartwake AI - Intelligent Business Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        }
+        
+        .brand-gradient {
+            background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 50%, #7dd3fc 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .service-card:hover::before {
+            left: 100%;
+        }
+        
+        .service-card:hover {
+            border-color: #0ea5e9;
+            box-shadow: 0 20px 60px rgba(14, 165, 233, 0.15);
+            transform: translateY(-8px) scale(1.02);
+        }
+        
+        .category-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .category-btn:hover::before {
+            left: 100%;
+        }
+        
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(1deg); }
+            66% { transform: translateY(5px) rotate(-1deg); }
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 3s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(14, 165, 233, 0.8);
+                transform: scale(1.05);
+            }
+        }
+        
+        .typing-animation {
+            overflow: hidden;
+            border-right: 3px solid #0ea5e9;
+            white-space: nowrap;
+            animation: typing 4s steps(50, end), blink-caret 1s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #0ea5e9; }
+        }
+        
+        .nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+            transition: left 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            left: 0;
+        }
+        
+        .stats-counter {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .service-icon {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-8px); }
+        }
+        
+        .feature-highlight {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        
+        .feature-highlight:hover {
+            border-color: rgba(14, 165, 233, 0.5);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.1);
+        }
+        
+        .testimonial-card {
+            background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .cta-gradient {
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #8b5cf6 100%);
+        }
+        
+        .particle-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 50%;
+            animation: particle-float 8s infinite linear;
+        }
+        
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .service-card-glow {
+            position: relative;
+        }
+        
+        .service-card-glow::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #0ea5e9, #3b82f6, #8b5cf6, #0ea5e9);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .service-card:hover.service-card-glow::after {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="gradient-bg text-white overflow-x-hidden">
+    <!-- Particle Background -->
+    <div class="particle-bg fixed inset-0 pointer-events-none z-0">
+        <div class="particle" style="left: 10%; width: 4px; height: 4px; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; width: 6px; height: 6px; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 30%; width: 3px; height: 3px; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 40%; width: 5px; height: 5px; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 50%; width: 4px; height: 4px; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 60%; width: 6px; height: 6px; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; width: 3px; height: 3px; animation-delay: 6s;"></div>
+        <div class="particle" style="left: 80%; width: 5px; height: 5px; animation-delay: 7s;"></div>
+        <div class="particle" style="left: 90%; width: 4px; height: 4px; animation-delay: 8s;"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 brand-gradient rounded-xl flex items-center justify-center pulse-glow">
+                        <span class="text-white font-bold text-lg">SI</span>
+                    </div>
+                    <span class="text-xl font-bold" style="color: #0ea5e9;">Smartwake AI</span>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-white hover:text-sky-400 transition-colors px-3 py-2">Home</a>
+                    <a href="#services" class="nav-link text-white hover:text-sky-400 transition-colors px-3 py-2">Services</a>
+                    <a href="#features" class="nav-link text-white hover:text-sky-400 transition-colors px-3 py-2">Features</a>
+                    <a href="#testimonials" class="nav-link text-white hover:text-sky-400 transition-colors px-3 py-2">Reviews</a>
+                    <a href="#contact" class="nav-link text-white hover:text-sky-400 transition-colors px-3 py-2">Contact</a>
+                </div>
+                
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <button class="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 pulse-glow">
+                        Get Started Free
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-white hover:text-sky-400 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-slate-900 border-t border-slate-700">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#home" class="block px-3 py-2 text-white hover:text-sky-400 transition-colors">Home</a>
+                <a href="#services" class="block px-3 py-2 text-white hover:text-sky-400 transition-colors">Services</a>
+                <a href="#features" class="block px-3 py-2 text-white hover:text-sky-400 transition-colors">Features</a>
+                <a href="#testimonials" class="block px-3 py-2 text-white hover:text-sky-400 transition-colors">Reviews</a>
+                <a href="#contact" class="block px-3 py-2 text-white hover:text-sky-400 transition-colors">Contact</a>
+                <button class="w-full text-left bg-sky-600 hover:bg-sky-700 text-white px-3 py-2 rounded-lg font-medium transition-colors mt-4">
+                    Get Started Free
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-40 -right-40 w-96 h-96 bg-sky-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 floating-animation"></div>
+            <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 floating-animation" style="animation-delay: -3s;"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 floating-animation" style="animation-delay: -6s;"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="mb-8">
+                <h1 class="text-6xl md:text-8xl font-bold mb-6 leading-tight">
+                    <span class="block mb-2">Next-Gen</span>
+                    <span class="brand-gradient bg-clip-text text-transparent typing-animation">AI Business Suite</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto mb-8 leading-relaxed">
+                    Transform your business with cutting-edge AI tools for strategic planning, risk assessment, and intelligent automation. Experience the future of business management today.
+                </p>
+            </div>
+            
+            <!-- Enhanced CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+                <button class="group bg-sky-600 hover:bg-sky-700 text-white px-10 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 pulse-glow relative overflow-hidden">
+                    <span class="relative z-10">Start Free Trial</span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-sky-400 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </button>
+                <button class="group border-2 border-sky-500 text-sky-400 hover:bg-sky-500 hover:text-white px-10 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 relative overflow-hidden">
+                    <span class="relative z-10 flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Watch Demo
+                    </span>
+                </button>
+            </div>
+            
+            <!-- Enhanced Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+                <div class="text-center feature-highlight rounded-xl p-6">
+                    <div class="text-4xl md:text-5xl font-bold text-sky-400 stats-counter mb-2">50K+</div>
+                    <div class="text-slate-400 font-medium">Active Users</div>
+                </div>
+                <div class="text-center feature-highlight rounded-xl p-6">
+                    <div class="text-4xl md:text-5xl font-bold text-green-400 stats-counter mb-2">98.5%</div>
+                    <div class="text-slate-400 font-medium">Success Rate</div>
+                </div>
+                <div class="text-center feature-highlight rounded-xl p-6">
+                    <div class="text-4xl md:text-5xl font-bold text-purple-400 stats-counter mb-2">24/7</div>
+                    <div class="text-slate-400 font-medium">AI Support</div>
+                </div>
+                <div class="text-center feature-highlight rounded-xl p-6">
+                    <div class="text-4xl md:text-5xl font-bold text-orange-400 stats-counter mb-2">120+</div>
+                    <div class="text-slate-400 font-medium">Countries</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Enhanced Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 scroll-indicator">
+            <div class="flex flex-col items-center">
+                <span class="text-sm text-slate-400 mb-2">Explore Services</span>
+                <svg class="w-6 h-6 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-slate-900 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl md:text-6xl font-bold mb-8 leading-tight">
+                    <span class="brand-gradient bg-clip-text text-transparent">Revolutionary</span>
+                    <span class="block">AI Solutions</span>
+                </h2>
+                <p class="text-xl text-slate-400 max-w-4xl mx-auto leading-relaxed">
+                    Discover our comprehensive suite of AI-powered business tools designed to accelerate growth, minimize risks, and maximize your competitive advantage in today's dynamic market.
+                </p>
+            </div>
+            
+            <!-- Enhanced Category Filter -->
+            <div class="flex flex-wrap justify-center gap-4 mb-16">
+                <button class="category-btn active bg-sky-600 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-sky-700" data-category="all">
+                    All Services
+                </button>
+                <button class="category-btn bg-slate-700 text-slate-300 px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-slate-600 hover:text-white cursor-pointer" data-category="business-plans" onclick="window.location.href='Businessplan.html'">
+                    Business Plans
+                </button>
+                <button class="category-btn bg-slate-700 text-slate-300 px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-slate-600 hover:text-white cursor-pointer" data-category="proposals" onclick="window.location.href='Businessproposal.html'">
+                    Business Proposals
+                </button>
+                <button class="category-btn bg-slate-700 text-slate-300 px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-slate-600 hover:text-white cursor-pointer" data-category="community" onclick="window.location.href='Community.html'">
+                    Community
+                </button>
+                <button class="category-btn bg-slate-700 text-slate-300 px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-slate-600 hover:text-white cursor-pointer" data-category="consultation" onclick="window.location.href='Consultation.html'">
+                    Consultation
+                </button>
+                <button class="category-btn bg-slate-700 text-slate-300 px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-slate-600 hover:text-white cursor-pointer" data-category="risk" onclick="window.location.href='Riskmanagement.html'">
+                    Risk Management
+                </button>
+            </div>
+            
+            <!-- Enhanced Services Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="services-grid">
+                <!-- Business Plan Generator -->
+                <div class="service-card service-card-glow bg-slate-800 rounded-2xl p-8 group" data-category="business-plans">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-sky-400 transition-colors">AI Business Plan Generator</h3>
+                    <p class="text-slate-400 mb-6 leading-relaxed">Create comprehensive, investor-ready business plans with AI-powered market analysis, financial projections, and strategic insights tailored to your industry.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-3 py-1 bg-blue-600 text-white text-sm rounded-full">Planning</span>
+                            <span class="px-3 py-1 bg-purple-600 text-white text-sm rounded-full">Strategy</span>
+                        </div>
+                        <button class="text-sky-400 hover:text-sky-300 font-medium transition-colors">
+                            Learn More →
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Business Proposal -->
+                <div class="service-card service-card-glow bg-slate-800 rounded-2xl p-8 group" data-category="proposals">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-green-500 to-teal-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-sky-400 transition-colors">Smart Proposal Builder</h3>
+                    <p class="text-slate-400 mb-6 leading-relaxed">Generate winning business proposals that convert prospects into clients with AI-powered content optimization, pricing strategies, and persuasive frameworks.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-3 py-1 bg-green-600 text-white text-sm rounded-full">Sales</span>
+                            <span class="px-3 py-1 bg-teal-600 text-white text-sm rounded-full">Content</span>
+                        </div>
+                        <button class="text-sky-400 hover:text-sky-300 font-medium transition-colors">
+                            Learn More →
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Community Platform -->
+                <div class="service-card service-card-glow bg-slate-800 rounded-2xl p-8 group" data-category="community">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-sky-400 transition-colors">Business Community Hub</h3>
+                    <p class="text-slate-400 mb-6 leading-relaxed">Connect with entrepreneurs, share insights, collaborate on projects, and access exclusive networking opportunities in our vibrant business community ecosystem.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-3 py-1 bg-purple-600 text-white text-sm rounded-full">Network</span>
+                            <span class="px-3 py-1 bg-pink-600 text-white text-sm rounded-full">Collaborate</span>
+                        </div>
+                        <button class="text-sky-400 hover:text-sky-300 font-medium transition-colors">
+                            Learn More →
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- AI Consultation -->
+                <div class="service-card service-card-glow bg-slate-800 rounded-2xl p-8 group" data-category="consultation">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-sky-400 transition-colors">AI Business Consultant</h3>
+                    <p class="text-slate-400 mb-6 leading-relaxed">Get personalized business advice, strategic guidance, and actionable insights from our advanced AI consultant trained on millions of successful business cases.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-3 py-1 bg-orange-600 text-white text-sm rounded-full">Advisory</span>
+                            <span class="px-3 py-1 bg-red-600 text-white text-sm rounded-full">Insights</span>
+                        </div>
+                        <button class="text-sky-400 hover:text-sky-300 font-medium transition-colors">
+                            Learn More →
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Risk Management -->
+                <div class="service-card service-card-glow bg-slate-800 rounded-2xl p-8 group" data-category="risk">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-sky-400 transition-colors">Intelligent Risk Assessment</h3>
+                    <p class="text-slate-400 mb-6 leading-relaxed">Identify, assess, and mitigate business risks with advanced AI-powered analytics, predictive modeling, and real-time monitoring systems.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-3 py-1 bg-yellow-600 text-white text-sm rounded-full">Security</span>
+                            <span class="px-3 py-1 bg-orange-600 text-white text-sm rounded-full">Analytics</span>
+                        </div>
+                        <button class="text-sky-400 hover:text-sky-300 font-medium transition-colors">
+                            Learn More →
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Analytics Dashboard -->
+                <div class="service-card service-card-glow bg-slate-800 rounded-2xl p-8 group" data-category="analytics">
+                    <div class="service-icon w-16 h-16 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white group-hover:text-sky-400 transition-colors">Advanced Analytics Suite</h3>
+                    <p class="text-slate-400 mb-6 leading-relaxed">Monitor business performance with real-time dashboards, predictive analytics, and AI-driven insights that help you make data-driven decisions with confidence.</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-3 py-1 bg-indigo-600 text-white text-sm rounded-full">Data</span>
+                            <span class="px-3 py-1 bg-blue-600 text-white text-sm rounded-full">Insights</span>
+                        </div>
+                        <button class="text-sky-400 hover:text-sky-300 font-medium transition-colors">
+                            Learn More →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 bg-slate-800 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl md:text-6xl font-bold mb-8">
+                    <span class="text-white">Why Choose</span>
+                    <span class="brand-gradient bg-clip-text text-transparent block">Smartwake AI?</span>
+                </h2>
+                <p class="text-xl text-slate-400 max-w-4xl mx-auto leading-relaxed">
+                    Experience the next generation of business intelligence with features designed to give your organization the competitive edge it needs to thrive in today's digital landscape.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Features List -->
+                <div class="space-y-10">
+                    <div class="flex items-start space-x-6 group">
+                        <div class="w-12 h-12 bg-gradient-to-br from-sky-500 to-blue-600 rounded-2xl flex items-center justify-center flex-shrink-0 mt-2 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-sky-400 transition-colors">Lightning-Fast AI Processing</h3>
+                            <p class="text-slate-400 leading-relaxed">Leverage cutting-edge artificial intelligence that processes complex business data in seconds, delivering insights that would traditionally take hours or days to compile.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-6 group">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center flex-shrink-0 mt-2 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-sky-400 transition-colors">Real-Time Analytics & Insights</h3>
+                            <p class="text-slate-400 leading-relaxed">Monitor your business performance with live dashboards and predictive insights that adapt to market changes, helping you stay ahead of trends and opportunities.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-6 group">
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center flex-shrink-0 mt-2 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-sky-400 transition-colors">Seamless Integration Ecosystem</h3>
+                            <p class="text-slate-400 leading-relaxed">Connect effortlessly with your existing tools and workflows through our comprehensive API suite, creating a unified business management experience.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-6 group">
+                        <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center flex-shrink-0 mt-2 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-sky-400 transition-colors">24/7 AI-Powered Support</h3>
+                            <p class="text-slate-400 leading-relaxed">Get round-the-clock assistance from our intelligent support system, backed by expert consultants who understand your business needs and challenges.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Enhanced Feature Visualization -->
+                <div class="relative">
+                    <div class="cta-gradient rounded-3xl p-10 text-center relative overflow-hidden">
+                        <!-- Background Pattern -->
+                        <div class="absolute inset-0 opacity-10">
+                            <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white to-transparent"></div>
+                        </div>
+                        
+                        <div class="relative z-10">
+                            <div class="mb-8">
+                                <div class="w-24 h-24 bg-white rounded-3xl flex items-center justify-center mx-auto mb-6 pulse-glow">
+                                    <svg class="w-12 h-12 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-3xl font-bold text-white mb-4">Unmatched Performance</h3>
+                                <p class="text-blue-100 text-lg leading-relaxed">Experience enterprise-grade reliability with industry-leading uptime and security standards that protect your business data.</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-3 gap-6 text-center">
+                                <div class="bg-white bg-opacity-20 rounded-2xl p-4">
+                                    <div class="text-3xl font-bold text-white mb-1">99.99%</div>
+                                    <div class="text-sm text-blue-100">Uptime SLA</div>
+                                </div>
+                                <div class="bg-white bg-opacity-20 rounded-2xl p-4">
+                                    <div class="text-3xl font-bold text-white mb-1">&lt; 100ms</div>
+                                    <div class="text-sm text-blue-100">Response Time</div>
+                                </div>
+                                <div class="bg-white bg-opacity-20 rounded-2xl p-4">
+                                    <div class="text-3xl font-bold text-white mb-1">SOC 2</div>
+                                    <div class="text-sm text-blue-100">Compliant</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-24 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl md:text-6xl font-bold mb-8">
+                    <span class="text-white">Trusted by</span>
+                    <span class="brand-gradient bg-clip-text text-transparent block">Industry Leaders</span>
+                </h2>
+                <p class="text-xl text-slate-400 max-w-4xl mx-auto leading-relaxed">
+                    Join thousands of successful businesses that have transformed their operations with Smartwake AI. Here's what our clients say about their experience.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="testimonial-card rounded-2xl p-8 transition-all duration-300 hover:scale-105">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">JD</span>
+                        </div>
+                        <div class="ml-4">
+                            <div class="font-bold text-lg text-white">John Davis</div>
+                            <div class="text-slate-400">CEO, TechStart Inc.</div>
+                            <div class="flex text-yellow-400 mt-1">
+                                ★★★★★
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 leading-relaxed text-lg">"Smartwake AI completely transformed our business planning process. What used to take our team weeks now takes just hours, and the insights are incredibly accurate and actionable."</p>
+                </div>
+                
+                <div class="testimonial-card rounded-2xl p-8 transition-all duration-300 hover:scale-105">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-600 rounded-2xl flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">SM</span>
+                        </div>
+                        <div class="ml-4">
+                            <div class="font-bold text-lg text-white">Sarah Miller</div>
+                            <div class="text-slate-400">Founder, GrowthCo</div>
+                            <div class="flex text-yellow-400 mt-1">
+                                ★★★★★
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 leading-relaxed text-lg">"The risk management tools helped us identify potential issues before they became problems. It's like having a crystal ball for business decision-making."</p>
+                </div>
+                
+                <div class="testimonial-card rounded-2xl p-8 transition-all duration-300 hover:scale-105">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">MR</span>
+                        </div>
+                        <div class="ml-4">
+                            <div class="font-bold text-lg text-white">Mike Rodriguez</div>
+                            <div class="text-slate-400">Director, InnovateLab</div>
+                            <div class="flex text-yellow-400 mt-1">
+                                ★★★★★
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 leading-relaxed text-lg">"The community platform connected us with amazing partners and clients. We've closed three major deals through connections made in the Smartwake ecosystem."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced CTA Section -->
+    <section class="py-24 cta-gradient relative overflow-hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div class="max-w-5xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
+            <h2 class="text-5xl md:text-6xl font-bold mb-8 text-white leading-tight">
+                Ready to Transform Your Business?
+            </h2>
+            <p class="text-xl text-blue-100 mb-12 max-w-3xl mx-auto leading-relaxed">
+                Join thousands of successful entrepreneurs who are already using Smartwake AI to accelerate their growth, minimize risks, and maximize their competitive advantage.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center mb-8">
+                <button class="group bg-white text-sky-600 hover:bg-gray-100 px-10 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 relative overflow-hidden">
+                    <span class="relative z-10">Start Free Trial</span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-sky-50 to-blue-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </button>
+                <button class="group border-2 border-white text-white hover:bg-white hover:text-sky-600 px-10 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105">
+                    <span class="flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        Schedule Demo
+                    </span>
+                </button>
+            </div>
+            
+            <div class="flex items-center justify-center space-x-8 text-blue-100">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    No credit card required
+                </div>
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    14-day free trial
+                </div>
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Cancel anytime
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Footer -->
+    <footer id="contact" class="bg-slate-900 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <!-- Company Info -->
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-12 h-12 brand-gradient rounded-2xl flex items-center justify-center pulse-glow">
+                            <span class="text-white font-bold text-xl">SI</span>
+                        </div>
+                        <span class="text-2xl font-bold" style="color: #0ea5e9;">Smartwake AI</span>
+                    </div>
+                    <p class="text-slate-400 mb-8 max-w-md text-lg leading-relaxed">
+                        Empowering businesses worldwide with intelligent AI solutions for strategic planning, risk management, and sustainable growth in the digital age.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-slate-400 hover:text-sky-400 transition-colors transform hover:scale-110">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-slate-400 hover:text-sky-400 transition-colors transform hover:scale-110">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-slate-400 hover:text-sky-400 transition-colors transform hover:scale-110">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.097.118.112.221.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.748-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24c6.624 0 11.99-5.367 11.99-11.987C24.007 5.367 18.641.001.012.001z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-xl font-bold mb-6 text-white">Quick Links</h3>
+                    <ul class="space-y-4">
+                        <li><a href="#home" class="text-slate-400 hover:text-white transition-colors text-lg">Home</a></li>
+                        <li><a href="#services" class="text-slate-400 hover:text-white transition-colors text-lg">Services</a></li>
+                        <li><a href="#features" class="text-slate-400 hover:text-white transition-colors text-lg">Features</a></li>
+                        <li><a href="#testimonials" class="text-slate-400 hover:text-white transition-colors text-lg">Reviews</a></li>
+                        <li><a href="#contact" class="text-slate-400 hover:text-white transition-colors text-lg">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Services -->
+                <div>
+                    <h3 class="text-xl font-bold mb-6 text-white">Our Services</h3>
+                    <ul class="space-y-4">
+                        <li><a href="Businessplan.html" class="text-slate-400 hover:text-white transition-colors text-lg">Business Plans</a></li>
+                        <li><a href="Businessproposal.html" class="text-slate-400 hover:text-white transition-colors text-lg">Proposals</a></li>
+                        <li><a href="Community.html" class="text-slate-400 hover:text-white transition-colors text-lg">Community</a></li>
+                        <li><a href="Consultation.html" class="text-slate-400 hover:text-white transition-colors text-lg">Consultation</a></li>
+                        <li><a href="Riskmanagement.html" class="text-slate-400 hover:text-white transition-colors text-lg">Risk Management</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-700 mt-16 pt-8 text-center">
+                <p class="text-slate-400 text-lg">
+                    © 2024 Smartwake AI. All rights reserved. | 
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a> | 
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a> | 
+                    <a href="#" class="hover:text-white transition-colors">Cookie Policy</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                // Close mobile menu if open
+                mobileMenu.classList.add('hidden');
+            });
+        });
+        
+        // Enhanced category filtering
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const serviceCards = document.querySelectorAll('.service-card');
+        
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Don't filter if it's a navigation button
+                if (btn.hasAttribute('onclick')) {
+                    return;
+                }
+                
+                e.preventDefault();
+                
+                // Update active button
+                categoryBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-sky-600', 'text-white');
+                    b.classList.add('bg-slate-700', 'text-slate-300');
+                });
+                
+                btn.classList.add('active', 'bg-sky-600', 'text-white');
+                btn.classList.remove('bg-slate-700', 'text-slate-300');
+                
+                // Filter services
+                const category = btn.dataset.category;
+                
+                serviceCards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(-20px)';
+                        
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+        
+        // Counter animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stats-counter');
+            counters.forEach(counter => {
+                const target = counter.textContent;
+                const numericValue = parseInt(target.replace(/[^\d]/g, ''));
+                const suffix = target.replace(/[\d]/g, '');
+                let current = 0;
+                const increment = numericValue / 60;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= numericValue) {
+                        counter.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current) + suffix;
+                    }
+                }, 50);
+            });
+        }
+        
+        // Enhanced Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.querySelector('.stats-counter')) {
+                        animateCounters();
+                    }
+                    
+                    // Animate service cards
+                    if (entry.target.id === 'services') {
+                        const cards = entry.target.querySelectorAll('.service-card');
+                        cards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
+                    }
+                    
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe sections for animation
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(section);
+        });
+        
+        // Initialize service cards with animation styles
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+        
+        // Enhanced navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.backgroundColor = 'rgba(15, 23, 42, 0.95)';
+                nav.style.backdropFilter = 'blur(20px)';
+            } else {
+                nav.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                nav.style.backdropFilter = 'blur(10px)';
+            }
+        });
+        
+        // Add hover effects to service cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+        
+        // Particle animation
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.width = Math.random() * 4 + 2 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            
+            document.querySelector('.particle-bg').appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
+        
+        // Create particles periodically
+        setInterval(createParticle, 2000);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97e1ad5bc27c4eb2',t:'MTc1NzcwMzkzNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

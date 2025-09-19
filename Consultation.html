@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Consultation - Smartwake AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .brand-gradient {
+            background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 50%, #7dd3fc 100%);
+        }
+        
+        .consultation-gradient {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .chat-message {
+            animation: slideInUp 0.4s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .typing-dots {
+            animation: typing 1.4s infinite;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+        
+        .consultation-card {
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .consultation-card:hover {
+            transform: translateY(-2px);
+            border-color: #0ea5e9;
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.2);
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform-origin: 50% 50%;
+        }
+        
+        .industry-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .industry-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .consultation-timeline {
+            position: relative;
+        }
+        
+        .consultation-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #0ea5e9, #38bdf8);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: #0ea5e9;
+            border-radius: 50%;
+            border: 3px solid #1e293b;
+        }
+        
+        .expertise-meter {
+            background: linear-gradient(90deg, #ef4444 0%, #f59e0b 50%, #10b981 100%);
+            height: 4px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen">
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700 px-6 py-4">
+        <div class="flex items-center justify-between max-w-7xl mx-auto">
+            <!-- Left: Logo and Navigation -->
+            <div class="flex items-center space-x-6">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 brand-gradient rounded-xl flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">SI</span>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold" style="color: #0ea5e9;">Smartwake AI</span>
+                        <div class="text-sm text-slate-400">Business Consultation</div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Tabs -->
+                <nav class="hidden md:flex space-x-1">
+                    <button class="px-4 py-2 bg-sky-600 text-white rounded-lg text-sm font-medium">Consultation</button>
+                    <button class="px-4 py-2 text-slate-300 hover:text-white hover:bg-slate-700 rounded-lg text-sm font-medium transition-colors">Resources</button>
+                    <button class="px-4 py-2 text-slate-300 hover:text-white hover:bg-slate-700 rounded-lg text-sm font-medium transition-colors">Templates</button>
+                    <button class="px-4 py-2 text-slate-300 hover:text-white hover:bg-slate-700 rounded-lg text-sm font-medium transition-colors">Analytics</button>
+                </nav>
+            </div>
+            
+            <!-- Center: Consultation Status -->
+            <div class="hidden lg:flex items-center space-x-4">
+                <div class="flex items-center space-x-2 bg-slate-700 rounded-lg px-3 py-2">
+                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span class="text-sm text-slate-300">AI Consultant Online</span>
+                </div>
+                <select class="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white text-sm focus:border-sky-500 focus:outline-none">
+                    <option>General Business</option>
+                    <option>Technology Startup</option>
+                    <option>E-commerce</option>
+                    <option>Healthcare</option>
+                    <option>Finance</option>
+                    <option>Manufacturing</option>
+                    <option>Real Estate</option>
+                    <option>Food & Beverage</option>
+                </select>
+            </div>
+            
+            <!-- Right: User Actions -->
+            <div class="flex items-center space-x-3">
+                <button class="p-2 text-slate-400 hover:text-white transition-colors" title="Notifications">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM4 19h10a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </button>
+                <button class="p-2 text-slate-400 hover:text-white transition-colors" title="Settings">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </button>
+                <div class="w-8 h-8 bg-sky-500 rounded-full flex items-center justify-center">
+                    <span class="text-white text-sm font-medium">JD</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex h-screen">
+        <!-- Left Sidebar -->
+        <div class="w-80 bg-slate-800 border-r border-slate-700 flex flex-col">
+            <!-- Consultation Overview -->
+            <div class="p-6 border-b border-slate-700">
+                <h2 class="text-lg font-semibold mb-4">Consultation Dashboard</h2>
+                
+                <!-- Progress Overview -->
+                <div class="bg-slate-700 rounded-lg p-4 mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-slate-300">Session Progress</span>
+                        <span class="text-sm font-medium text-sky-400">75%</span>
+                    </div>
+                    <div class="w-full bg-slate-600 rounded-full h-2">
+                        <div class="bg-sky-500 h-2 rounded-full" style="width: 75%"></div>
+                    </div>
+                    <div class="text-xs text-slate-400 mt-1">3 of 4 modules completed</div>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-slate-700 rounded-lg p-3 text-center">
+                        <div class="text-lg font-bold text-green-400">12</div>
+                        <div class="text-xs text-slate-400">Recommendations</div>
+                    </div>
+                    <div class="bg-slate-700 rounded-lg p-3 text-center">
+                        <div class="text-lg font-bold text-blue-400">8</div>
+                        <div class="text-xs text-slate-400">Action Items</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Industry Expertise -->
+            <div class="p-6 border-b border-slate-700">
+                <h3 class="text-sm font-medium text-slate-300 mb-4">Industry Expertise</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3 p-3 bg-slate-700 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center industry-icon">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-sm font-medium">Technology</div>
+                            <div class="w-full bg-slate-600 rounded-full h-1 mt-1">
+                                <div class="expertise-meter rounded-full h-1" style="width: 95%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 p-3 bg-slate-700 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center industry-icon">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M7 18c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-sm font-medium">E-commerce</div>
+                            <div class="w-full bg-slate-600 rounded-full h-1 mt-1">
+                                <div class="expertise-meter rounded-full h-1" style="width: 88%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 p-3 bg-slate-700 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center industry-icon">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-sm font-medium">Healthcare</div>
+                            <div class="w-full bg-slate-600 rounded-full h-1 mt-1">
+                                <div class="expertise-meter rounded-full h-1" style="width: 82%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Consultations -->
+            <div class="p-6 flex-1 overflow-y-auto">
+                <h3 class="text-sm font-medium text-slate-300 mb-4">Recent Sessions</h3>
+                <div class="space-y-3">
+                    <div class="p-3 bg-slate-700 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-sm font-medium">SaaS Startup Strategy</span>
+                            <span class="text-xs text-green-400">Completed</span>
+                        </div>
+                        <div class="text-xs text-slate-400">Technology • 2 hours ago</div>
+                    </div>
+                    
+                    <div class="p-3 bg-slate-700 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-sm font-medium">Market Entry Analysis</span>
+                            <span class="text-xs text-yellow-400">In Progress</span>
+                        </div>
+                        <div class="text-xs text-slate-400">E-commerce • 1 day ago</div>
+                    </div>
+                    
+                    <div class="p-3 bg-slate-700 rounded-lg cursor-pointer hover:bg-slate-600 transition-colors">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-sm font-medium">Financial Planning</span>
+                            <span class="text-xs text-blue-400">Scheduled</span>
+                        </div>
+                        <div class="text-xs text-slate-400">Finance • 3 days ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col">
+            <!-- Consultation Chat -->
+            <div id="consultationChat" class="flex-1 overflow-y-auto p-6 space-y-6">
+                <!-- Welcome Message -->
+                <div class="chat-message">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-sky-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1 max-w-4xl">
+                            <div class="bg-slate-800 rounded-lg p-6">
+                                <div class="flex items-center space-x-2 mb-3">
+                                    <span class="text-sm text-slate-400">AI Business Consultant</span>
+                                    <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                    <span class="text-xs text-green-400">Online</span>
+                                </div>
+                                
+                                <h3 class="text-xl font-semibold mb-4">Welcome to Your Personal Business Consultation! 🚀</h3>
+                                
+                                <p class="text-slate-300 mb-6">I'm your AI business consultant, equipped with expertise across multiple industries and business functions. I'm here to provide you with strategic guidance, actionable insights, and comprehensive solutions tailored to your specific business needs.</p>
+                                
+                                <!-- Consultation Services Grid -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                    <div class="consultation-card bg-slate-700 rounded-lg p-4 cursor-pointer">
+                                        <div class="flex items-center space-x-3 mb-2">
+                                            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2.5 2.25l1.5-1.5V6.75l-1.5-1.5H3.5L2 6.75v11.5l1.5 1.5h17z"/>
+                                                </svg>
+                                            </div>
+                                            <h4 class="font-medium">Strategic Planning</h4>
+                                        </div>
+                                        <p class="text-sm text-slate-400">Business strategy, market analysis, competitive positioning</p>
+                                    </div>
+                                    
+                                    <div class="consultation-card bg-slate-700 rounded-lg p-4 cursor-pointer">
+                                        <div class="flex items-center space-x-3 mb-2">
+                                            <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                                                </svg>
+                                            </div>
+                                            <h4 class="font-medium">Financial Advisory</h4>
+                                        </div>
+                                        <p class="text-sm text-slate-400">Financial planning, funding strategies, investment analysis</p>
+                                    </div>
+                                    
+                                    <div class="consultation-card bg-slate-700 rounded-lg p-4 cursor-pointer">
+                                        <div class="flex items-center space-x-3 mb-2">
+                                            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                                                </svg>
+                                            </div>
+                                            <h4 class="font-medium">Growth & Scaling</h4>
+                                        </div>
+                                        <p class="text-sm text-slate-400">Expansion strategies, operational efficiency, team building</p>
+                                    </div>
+                                    
+                                    <div class="consultation-card bg-slate-700 rounded-lg p-4 cursor-pointer">
+                                        <div class="flex items-center space-x-3 mb-2">
+                                            <div class="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                                </svg>
+                                            </div>
+                                            <h4 class="font-medium">Risk Management</h4>
+                                        </div>
+                                        <p class="text-sm text-slate-400">Risk assessment, compliance, crisis management</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-slate-700 rounded-lg p-4">
+                                    <h4 class="font-medium mb-2">How to get started:</h4>
+                                    <ol class="space-y-1 text-sm text-slate-300">
+                                        <li>1. Tell me about your business and current challenges</li>
+                                        <li>2. Select your industry or business type</li>
+                                        <li>3. Share any specific goals or questions you have</li>
+                                        <li>4. I'll provide personalized recommendations and action plans</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="border-t border-slate-700 p-6">
+                <div class="max-w-4xl mx-auto">
+                    <!-- Quick Consultation Topics -->
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <button class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded-full text-sm transition-colors flex items-center space-x-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            <span>Business Plan Review</span>
+                        </button>
+                        <button class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded-full text-sm transition-colors flex items-center space-x-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <span>Market Analysis</span>
+                        </button>
+                        <button class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded-full text-sm transition-colors flex items-center space-x-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                            </svg>
+                            <span>Funding Strategy</span>
+                        </button>
+                        <button class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded-full text-sm transition-colors flex items-center space-x-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            <span>Team Building</span>
+                        </button>
+                        <button class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded-full text-sm transition-colors flex items-center space-x-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+                            </svg>
+                            <span>Digital Transformation</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Main Input -->
+                    <div class="relative">
+                        <textarea 
+                            id="consultationInput" 
+                            placeholder="Tell me about your business, challenges, or goals. I'm here to provide expert consultation and strategic guidance..."
+                            class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-4 pr-16 text-white placeholder-slate-400 focus:border-sky-500 focus:outline-none resize-none"
+                            rows="4"
+                        ></textarea>
+                        
+                        <!-- Input Actions -->
+                        <div class="absolute bottom-4 right-4 flex items-center space-x-2">
+                            <button class="p-2 text-slate-400 hover:text-white transition-colors" title="Upload documents">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.586-6.586a2 2 0 00-2.828-2.828z"></path>
+                                </svg>
+                            </button>
+                            <button class="p-2 text-slate-400 hover:text-white transition-colors" title="Voice input">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                                </svg>
+                            </button>
+                            <button id="sendConsultation" class="p-2 text-sky-400 hover:text-sky-300 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer Info -->
+                    <div class="flex items-center justify-between mt-4 text-xs text-slate-500">
+                        <div class="flex items-center space-x-4">
+                            <span>AI-powered business consultation</span>
+                            <span>•</span>
+                            <span>Industry-specific expertise</span>
+                            <span>•</span>
+                            <span>Confidential & secure</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span>Press Enter to send • Shift+Enter for new line</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel - Consultation Tools -->
+        <div class="w-80 bg-slate-800 border-l border-slate-700 flex flex-col">
+            <!-- Tools Header -->
+            <div class="p-6 border-b border-slate-700">
+                <h3 class="text-lg font-semibold mb-4">Consultation Tools</h3>
+                
+                <!-- Active Session Info -->
+                <div class="bg-slate-700 rounded-lg p-4 mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-slate-300">Current Session</span>
+                        <span class="text-xs bg-green-600 px-2 py-1 rounded">Active</span>
+                    </div>
+                    <div class="text-sm font-medium">General Business Consultation</div>
+                    <div class="text-xs text-slate-400 mt-1">Started 15 minutes ago</div>
+                </div>
+            </div>
+            
+            <!-- Business Assessment -->
+            <div class="p-6 border-b border-slate-700">
+                <h4 class="font-medium mb-3">Quick Business Assessment</h4>
+                <div class="space-y-3">
+                    <button class="w-full p-3 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors text-left">
+                        <div class="text-sm font-medium">SWOT Analysis</div>
+                        <div class="text-xs text-slate-400">Strengths, Weaknesses, Opportunities, Threats</div>
+                    </button>
+                    
+                    <button class="w-full p-3 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors text-left">
+                        <div class="text-sm font-medium">Business Model Canvas</div>
+                        <div class="text-xs text-slate-400">Visual business model overview</div>
+                    </button>
+                    
+                    <button class="w-full p-3 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors text-left">
+                        <div class="text-sm font-medium">Financial Health Check</div>
+                        <div class="text-xs text-slate-400">Revenue, costs, and profitability analysis</div>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Resource Library -->
+            <div class="p-6 border-b border-slate-700">
+                <h4 class="font-medium mb-3">Resource Library</h4>
+                <div class="space-y-2">
+                    <div class="flex items-center space-x-2 p-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 transition-colors">
+                        <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                        </svg>
+                        <span class="text-sm">Business Templates</span>
+                    </div>
+                    
+                    <div class="flex items-center space-x-2 p-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 transition-colors">
+                        <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9,17H7V10H9V17M13,17H11V7H13V17M17,17H15V13H17V17M19.5,19.5H4.5V5.5H19.5V19.5M19.5,4H4.5C3.67,4 3,4.67 3,5.5V19.5C3,20.33 3.67,21 4.5,21H19.5C20.33,21 21,20.33 21,19.5V5.5C21,4.67 20.33,4 19.5,4Z"/>
+                        </svg>
+                        <span class="text-sm">Industry Reports</span>
+                    </div>
+                    
+                    <div class="flex items-center space-x-2 p-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 transition-colors">
+                        <svg class="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7.07,18.28C7.5,17.38 10.12,16.5 12,16.5C13.88,16.5 16.5,17.38 16.93,18.28C15.57,19.36 13.86,20 12,20C10.14,20 8.43,19.36 7.07,18.28M18.36,16.83C16.93,15.09 13.46,14.5 12,14.5C10.54,14.5 7.07,15.09 5.64,16.83C4.62,15.5 4,13.82 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,13.82 19.38,15.5 18.36,16.83M12,6C10.06,6 8.5,7.56 8.5,9.5C8.5,11.44 10.06,13 12,13C13.94,13 15.5,11.44 15.5,9.5C15.5,7.56 13.94,6 12,6M12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11Z"/>
+                        </svg>
+                        <span class="text-sm">Case Studies</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Export & Actions -->
+            <div class="p-6 flex-1">
+                <h4 class="font-medium mb-3">Session Actions</h4>
+                <div class="space-y-2">
+                    <button class="w-full p-2 bg-sky-600 hover:bg-sky-700 rounded transition-colors text-sm">
+                        Export Consultation Report
+                    </button>
+                    <button class="w-full p-2 bg-slate-700 hover:bg-slate-600 rounded transition-colors text-sm">
+                        Schedule Follow-up
+                    </button>
+                    <button class="w-full p-2 bg-slate-700 hover:bg-slate-600 rounded transition-colors text-sm">
+                        Save Session Notes
+                    </button>
+                    <button class="w-full p-2 bg-slate-700 hover:bg-slate-600 rounded transition-colors text-sm">
+                        Share with Team
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let consultationHistory = [];
+        let currentIndustry = 'General Business';
+        
+        // Send consultation message
+        function sendConsultationMessage() {
+            const input = document.getElementById('consultationInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addConsultationMessage(message, 'user');
+            input.value = '';
+            
+            // Show typing indicator
+            showConsultationTyping();
+            
+            // Generate AI response
+            setTimeout(() => {
+                hideConsultationTyping();
+                generateConsultationResponse(message);
+            }, 2000);
+        }
+        
+        function addConsultationMessage(content, sender) {
+            const chatArea = document.getElementById('consultationChat');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message';
+            
+            if (sender === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="flex items-start space-x-4 justify-end">
+                        <div class="flex-1 max-w-3xl">
+                            <div class="bg-sky-600 rounded-lg p-4">
+                                <div class="text-white">${content}</div>
+                            </div>
+                        </div>
+                        <div class="w-10 h-10 bg-slate-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white text-sm font-medium">U</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-sky-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1 max-w-4xl">
+                            <div class="bg-slate-800 rounded-lg p-6">
+                                <div class="flex items-center space-x-2 mb-3">
+                                    <span class="text-sm text-slate-400">AI Business Consultant</span>
+                                    <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                </div>
+                                <div class="text-white">${content}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            chatArea.appendChild(messageDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+        
+        function showConsultationTyping() {
+            const chatArea = document.getElementById('consultationChat');
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'consultationTyping';
+            typingDiv.className = 'chat-message';
+            typingDiv.innerHTML = `
+                <div class="flex items-start space-x-4">
+                    <div class="w-10 h-10 bg-sky-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <div class="bg-slate-800 rounded-lg p-6">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <span class="text-sm text-slate-400">AI Business Consultant</span>
+                                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="typing-dots w-2 h-2 bg-slate-400 rounded-full"></div>
+                                <div class="typing-dots w-2 h-2 bg-slate-400 rounded-full" style="animation-delay: 0.2s;"></div>
+                                <div class="typing-dots w-2 h-2 bg-slate-400 rounded-full" style="animation-delay: 0.4s;"></div>
+                                <span class="text-slate-400 text-sm">Analyzing your business needs...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatArea.appendChild(typingDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+        
+        function hideConsultationTyping() {
+            const typing = document.getElementById('consultationTyping');
+            if (typing) {
+                typing.remove();
+            }
+        }
+        
+        function generateConsultationResponse(userMessage) {
+            const responses = [
+                `<h3 class="text-xl font-semibold mb-4">Strategic Business Analysis 📊</h3>
+                <p class="text-slate-300 mb-6">Based on your business description, I've identified several key areas for strategic focus and improvement. Let me provide you with a comprehensive analysis and actionable recommendations.</p>
+                
+                <div class="consultation-timeline mb-6">
+                    <div class="timeline-item">
+                        <h4 class="font-medium text-sky-400 mb-2">Immediate Actions (0-30 days)</h4>
+                        <ul class="space-y-1 text-sm text-slate-300">
+                            <li>• Conduct comprehensive market research and competitor analysis</li>
+                            <li>• Optimize your value proposition and messaging</li>
+                            <li>• Implement customer feedback collection systems</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h4 class="font-medium text-sky-400 mb-2">Short-term Goals (1-3 months)</h4>
+                        <ul class="space-y-1 text-sm text-slate-300">
+                            <li>• Develop strategic partnerships and alliances</li>
+                            <li>• Enhance digital marketing and online presence</li>
+                            <li>• Streamline operational processes for efficiency</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <h4 class="font-medium text-sky-400 mb-2">Long-term Vision (3-12 months)</h4>
+                        <ul class="space-y-1 text-sm text-slate-300">
+                            <li>• Scale operations and expand market reach</li>
+                            <li>• Develop new product/service offerings</li>
+                            <li>• Build sustainable competitive advantages</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-700 rounded-lg p-4">
+                    <h4 class="font-medium mb-2 text-green-400">💡 Key Recommendations:</h4>
+                    <p class="text-sm text-slate-300">Focus on customer acquisition cost optimization and lifetime value maximization. Consider implementing a data-driven approach to decision making and establish clear KPIs for measuring success.</p>
+                </div>`,
+                
+                `<h3 class="text-xl font-semibold mb-4">Financial Strategy & Growth Planning 💰</h3>
+                <p class="text-slate-300 mb-6">Let me help you develop a comprehensive financial strategy that aligns with your business goals and growth objectives.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-slate-700 rounded-lg p-4">
+                        <h4 class="font-medium mb-3 text-green-400">Revenue Optimization</h4>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                <span>Diversify revenue streams</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                <span>Implement dynamic pricing</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                <span>Focus on high-margin products</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-slate-700 rounded-lg p-4">
+                        <h4 class="font-medium mb-3 text-blue-400">Cost Management</h4>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                <span>Automate repetitive processes</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                <span>Negotiate better supplier terms</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                <span>Optimize operational efficiency</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-700 rounded-lg p-4 mb-4">
+                    <h4 class="font-medium mb-3">Funding Strategy Options</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-2 bg-slate-600 rounded">
+                            <span class="text-sm">Bootstrap/Self-funding</span>
+                            <span class="text-xs bg-green-600 px-2 py-1 rounded">Low Risk</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2 bg-slate-600 rounded">
+                            <span class="text-sm">Angel Investment</span>
+                            <span class="text-xs bg-yellow-600 px-2 py-1 rounded">Medium Risk</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2 bg-slate-600 rounded">
+                            <span class="text-sm">Venture Capital</span>
+                            <span class="text-xs bg-red-600 px-2 py-1 rounded">High Risk</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-sm text-slate-300">Would you like me to dive deeper into any specific financial aspect or create a detailed financial projection model for your business?</p>`,
+                
+                `<h3 class="text-xl font-semibold mb-4">Market Entry & Competitive Strategy 🎯</h3>
+                <p class="text-slate-300 mb-6">I'll help you develop a comprehensive market entry strategy and establish a strong competitive position in your industry.</p>
+                
+                <div class="bg-slate-700 rounded-lg p-4 mb-6">
+                    <h4 class="font-medium mb-3 text-purple-400">Market Analysis Framework</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-sm text-slate-400 mb-1">Market Size</div>
+                            <div class="w-full bg-slate-600 rounded-full h-2">
+                                <div class="bg-purple-500 h-2 rounded-full" style="width: 75%"></div>
+                            </div>
+                            <div class="text-xs text-slate-400 mt-1">Large opportunity</div>
+                        </div>
+                        <div>
+                            <div class="text-sm text-slate-400 mb-1">Competition Level</div>
+                            <div class="w-full bg-slate-600 rounded-full h-2">
+                                <div class="bg-orange-500 h-2 rounded-full" style="width: 60%"></div>
+                            </div>
+                            <div class="text-xs text-slate-400 mt-1">Moderate competition</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 mb-6">
+                    <div class="consultation-card bg-slate-700 rounded-lg p-4">
+                        <h4 class="font-medium mb-2 text-sky-400">🎯 Target Market Segmentation</h4>
+                        <p class="text-sm text-slate-300 mb-3">Identify and prioritize your most valuable customer segments based on size, accessibility, and profitability.</p>
+                        <div class="flex space-x-2">
+                            <span class="px-2 py-1 bg-sky-600 rounded text-xs">Primary Segment</span>
+                            <span class="px-2 py-1 bg-slate-600 rounded text-xs">Secondary Segment</span>
+                            <span class="px-2 py-1 bg-slate-600 rounded text-xs">Niche Markets</span>
+                        </div>
+                    </div>
+                    
+                    <div class="consultation-card bg-slate-700 rounded-lg p-4">
+                        <h4 class="font-medium mb-2 text-sky-400">⚡ Competitive Differentiation</h4>
+                        <p class="text-sm text-slate-300">Develop unique value propositions that set you apart from competitors and create sustainable competitive advantages.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-700 rounded-lg p-4">
+                    <h4 class="font-medium mb-2">Next Steps:</h4>
+                    <ol class="space-y-1 text-sm text-slate-300">
+                        <li>1. Conduct detailed competitor analysis and SWOT assessment</li>
+                        <li>2. Validate your target market through customer interviews</li>
+                        <li>3. Develop go-to-market strategy and launch plan</li>
+                        <li>4. Create metrics dashboard for tracking market penetration</li>
+                    </ol>
+                </div>`
+            ];
+            
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            addConsultationMessage(randomResponse, 'ai');
+        }
+        
+        // Event listeners
+        document.getElementById('sendConsultation').addEventListener('click', sendConsultationMessage);
+        
+        document.getElementById('consultationInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendConsultationMessage();
+            }
+        });
+        
+        // Quick topic buttons
+        document.querySelectorAll('.bg-slate-700').forEach(button => {
+            if (button.textContent.includes('Business Plan') || button.textContent.includes('Market Analysis') || 
+                button.textContent.includes('Funding') || button.textContent.includes('Team Building') || 
+                button.textContent.includes('Digital Transformation')) {
+                button.addEventListener('click', function() {
+                    const topic = this.textContent.trim();
+                    document.getElementById('consultationInput').value = `I need consultation on ${topic}. Can you provide strategic guidance and actionable recommendations?`;
+                    sendConsultationMessage();
+                });
+            }
+        });
+        
+        // Consultation service cards
+        document.querySelectorAll('.consultation-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const service = this.querySelector('h4').textContent;
+                document.getElementById('consultationInput').value = `I'm interested in ${service} consultation. Can you help me develop a comprehensive strategy?`;
+                sendConsultationMessage();
+            });
+        });
+        
+        // Assessment tools
+        document.querySelectorAll('button').forEach(button => {
+            if (button.textContent.includes('SWOT') || button.textContent.includes('Business Model') || 
+                button.textContent.includes('Financial Health')) {
+                button.addEventListener('click', function() {
+                    const tool = this.textContent.trim();
+                    addConsultationMessage(`I'd like to use the ${tool} tool for my business.`, 'user');
+                    
+                    setTimeout(() => {
+                        let response = '';
+                        if (tool.includes('SWOT')) {
+                            response = `<h3 class="text-xl font-semibold mb-4">SWOT Analysis Framework 📋</h3>
+                            <p class="text-slate-300 mb-6">Let's conduct a comprehensive SWOT analysis to identify your business's strategic position.</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div class="bg-green-700 rounded-lg p-4">
+                                    <h4 class="font-medium mb-2 text-green-200">💪 Strengths</h4>
+                                    <ul class="space-y-1 text-sm text-green-100">
+                                        <li>• Unique value proposition</li>
+                                        <li>• Strong team expertise</li>
+                                        <li>• Established customer base</li>
+                                        <li>• Efficient operations</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-red-700 rounded-lg p-4">
+                                    <h4 class="font-medium mb-2 text-red-200">⚠️ Weaknesses</h4>
+                                    <ul class="space-y-1 text-sm text-red-100">
+                                        <li>• Limited marketing budget</li>
+                                        <li>• Dependency on key personnel</li>
+                                        <li>• Technology gaps</li>
+                                        <li>• Cash flow constraints</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-blue-700 rounded-lg p-4">
+                                    <h4 class="font-medium mb-2 text-blue-200">🚀 Opportunities</h4>
+                                    <ul class="space-y-1 text-sm text-blue-100">
+                                        <li>• Market expansion potential</li>
+                                        <li>• New technology adoption</li>
+                                        <li>• Strategic partnerships</li>
+                                        <li>• Product diversification</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-orange-700 rounded-lg p-4">
+                                    <h4 class="font-medium mb-2 text-orange-200">⚡ Threats</h4>
+                                    <ul class="space-y-1 text-sm text-orange-100">
+                                        <li>• Increasing competition</li>
+                                        <li>• Economic uncertainty</li>
+                                        <li>• Regulatory changes</li>
+                                        <li>• Market saturation</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-slate-700 rounded-lg p-4">
+                                <h4 class="font-medium mb-2">Strategic Recommendations:</h4>
+                                <p class="text-sm text-slate-300">Leverage your strengths to capitalize on opportunities while addressing weaknesses and mitigating threats. Focus on building sustainable competitive advantages.</p>
+                            </div>`;
+                        } else if (tool.includes('Business Model')) {
+                            response = `<h3 class="text-xl font-semibold mb-4">Business Model Canvas 🎨</h3>
+                            <p class="text-slate-300 mb-6">Let's map out your business model using the proven Business Model Canvas framework.</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                <div class="bg-slate-700 rounded-lg p-4">
+                                    <h4 class="font-medium mb-2 text-purple-400">Key Partners</h4>
+                                    <p class="text-sm text-slate-300">Strategic alliances, suppliers, and key stakeholders</p>
+                                </div>
+                                
+                                <div class="bg-slate-700 rounded-lg p-4">
+                                    <h4 class="font-medium mb-2 text-blue-400">Key Activities</h4>
+                                    <p class="text-sm text-slate-300">Core business processes and operations</p>
+                                </div>
+                                
+                                <div class="bg-slate-700 rounded-lg p-4">
+                                    <h4 class="font-medium mb-2 text-green-400">Value Propositions</h4>
+                                    <p class="text-sm text-slate-300">Unique value delivered to customers</p>
+                                </div>
+                                
+                                <div class="bg-slate-700 rounded-lg p-4">
+                                    <h4 class="font-medium mb-2 text-orange-400">Customer Relationships</h4>
+                                    <p class="text-sm text-slate-300">How you interact with customer segments</p>
+                                </div>
+                                
+                                <div class="bg-slate-700 rounded-lg p-4">
+                                    <h4 class="font-medium mb-2 text-red-400">Customer Segments</h4>
+                                    <p class="text-sm text-slate-300">Target customer groups and markets</p>
+                                </div>
+                                
+                                <div class="bg-slate-700 rounded-lg p-4">
+                                    <h4 class="font-medium mb-2 text-yellow-400">Revenue Streams</h4>
+                                    <p class="text-sm text-slate-300">How your business generates income</p>
+                                </div>
+                            </div>
+                            
+                            <p class="text-sm text-slate-300">Would you like me to help you fill out each section with specific details for your business?</p>`;
+                        } else {
+                            response = `<h3 class="text-xl font-semibold mb-4">Financial Health Assessment 💊</h3>
+                            <p class="text-slate-300 mb-6">Let's evaluate your business's financial health across key performance indicators.</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div class="bg-slate-700 rounded-lg p-4">
+                                    <h4 class="font-medium mb-3">Liquidity Ratios</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between">
+                                            <span class="text-sm">Current Ratio</span>
+                                            <span class="text-green-400">2.1</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-sm">Quick Ratio</span>
+                                            <span class="text-yellow-400">1.3</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-slate-700 rounded-lg p-4">
+                                    <h4 class="font-medium mb-3">Profitability Metrics</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between">
+                                            <span class="text-sm">Gross Margin</span>
+                                            <span class="text-green-400">65%</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-sm">Net Margin</span>
+                                            <span class="text-yellow-400">12%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-slate-700 rounded-lg p-4">
+                                <h4 class="font-medium mb-2 text-green-400">✅ Financial Strengths:</h4>
+                                <ul class="space-y-1 text-sm text-slate-300 mb-4">
+                                    <li>• Strong liquidity position</li>
+                                    <li>• Healthy profit margins</li>
+                                    <li>• Consistent cash flow generation</li>
+                                </ul>
+                                
+                                <h4 class="font-medium mb-2 text-yellow-400">⚠️ Areas for Improvement:</h4>
+                                <ul class="space-y-1 text-sm text-slate-300">
+                                    <li>• Optimize working capital management</li>
+                                    <li>• Diversify revenue streams</li>
+                                    <li>• Improve inventory turnover</li>
+                                </ul>
+                            </div>`;
+                        }
+                        addConsultationMessage(response, 'ai');
+                    }, 1500);
+                });
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ca22ce23ce4ed5',t:'MTc1NzQ1NzA4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
